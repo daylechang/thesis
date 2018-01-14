@@ -1,0 +1,40 @@
+% define custom commands
+%\newcommand{\regmark}{\raisebox{5pt}{\tiny \circledR}\xspace}
+%\newcommand{\trademark}{\raisebox{5pt}{\tiny TM}\xspace}
+%\newcommand{\mca}{\texttt{Mathematica}\regmark}
+%\newcommand{\Latex}{\LaTeX\xspace}
+
+\newcommand*{\tensor}[1]{\overline{\overline{#1}}}
+\newcommand*{\pO}{\partial\Omega}
+\newcommand*{\dO}{\, d\Omega}
+\newcommand*{\dS}{\, dS}
+
+%
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it} % for curly math
+
+% Create a new theorem style called a Corollary.
+% If you don't have any, then just comment this out.
+%\theoremstyle{plain} % Default
+\newtheorem{cor}{Corollary}[chapter]
+
+%Custom Commands for Student
+
+\newcommand{\primerAddress}{{L:$\backslash$Courses$\backslash$PHYS$\backslash$LaTeX}\xspace}
+
+
+\def\plus{\texttt{+}}
+\def\minus{\texttt{-}}
+
+ 
+% ----------------------------------------- CREF Package
+\creflabelformat{equation}{#2\textup{#1}#3}
+%\newcommand{\crefrangeconjunction}{\,\minus}
+\newcommand{\crefrangeconjunction}{\,-}
+%\crefname{equation}{equation}{equations}
+%\Crefname{equation}{Equation}{Equations}% For beginning \Cref
+%\crefrangelabelformat{equation}{(#3#1#4--#5#2#6)}
+
+%\crefdefaultlabelformat{#2#1#3}
+
+%\crefmultiformat{equation}{equations (#2#1#3}{, #2#1#3)}{#2#1#3}{#2#1#3}
+%\Crefmultiformat{equation}{Equations (#2#1#3}{, #2#1#3)}{#2#1#3}{#2#1#3}
