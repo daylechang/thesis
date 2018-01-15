@@ -1,50 +1,22 @@
 \documentclass{article}
-%\usepackage[utf8]{inputenc}
-%\usepackage[english]{babel}
-%\documentclass[12pt,letterpaper,oneside]{book}
-
-
-%\input{preamble/myPackages}
-%\input{preamble/commonSymbols}
-%\input{Preamble/myFigures}
-%\input{Preamble/myTables}
 
 \usepackage[letterpaper, margin=.8in]{geometry}
-\usepackage{physics}
-	% \qty
-
-\usepackage{amsmath} 
-	% \begin{multiline} \\ \end{multiline}
-	% \begin{cases}
-
-\usepackage{biblatex}
-\addbibresource{references.bib}
-\usepackage{float} % Places the figure float at precisely the location in the LaTeX code
-
-\usepackage[noabbrev, capitalize, nameinlink]{cleveref}
-%	- spell out equations, capitalize the first letter,
-% 		and make the numbers themselves hyperlinks
-
-%\usepackage{subfigure}
-% for plots
-\usepackage{subcaption}
-%\usepackage{graphicx}
-\usepackage[justification=centering]{caption}
 \usepackage{graphicx}
+\usepackage[doi=false,isbn=false,url=false]{biblatex}
+\addbibresource{references.bib}
+
 
 % --- replace
-\newcommand{\plus}{\texttt{+}}
-\newcommand{\minus}{\texttt{-}}
+
 
 % --- new
-\newcommand{\sfrac}[2]{\textstyle\frac{#1}{#2}}
-\newcommand{\mdot}{\dot{m}}
-\newcommand{\trm}[1]{\textrm{#1}}
+
 
 \graphicspath{{figures/}}
 
 \begin{document}
 
+\tableofcontents
 \input{chapter04/plenum}
 
 % -----------------------------------------------------------

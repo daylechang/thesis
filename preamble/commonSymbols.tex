@@ -8,28 +8,37 @@
 \newcommand*{\pO}{\partial\Omega}
 \newcommand*{\dO}{\, d\Omega}
 \newcommand*{\dS}{\, dS}
+\newcommand*{\plus}{\texttt{+}}
+\newcommand*{\minus}{\texttt{-}}
+%\def\plus{\texttt{+}}
+%\def\minus{\texttt{-}}
+\newcommand*{\sfrac}[2]{\textstyle\frac{#1}{#2}}
+	% style for superscript fractions
+\newcommand*{\mdot}{\dot{m}}
+\newcommand*{\trm}[1]{\textrm{#1}}
+	% style for regular text in math mode
 
-%
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it} % for curly math
 
 % Create a new theorem style called a Corollary.
 % If you don't have any, then just comment this out.
 %\theoremstyle{plain} % Default
-\newtheorem{cor}{Corollary}[chapter]
+%\newtheorem{cor}{Corollary}[chapter]
 
 %Custom Commands for Student
 
 \newcommand{\primerAddress}{{L:$\backslash$Courses$\backslash$PHYS$\backslash$LaTeX}\xspace}
 
 
-\def\plus{\texttt{+}}
-\def\minus{\texttt{-}}
+
 
  
 % ----------------------------------------- CREF Package
 \creflabelformat{equation}{#2\textup{#1}#3}
 %\newcommand{\crefrangeconjunction}{\,\minus}
 \newcommand{\crefrangeconjunction}{\,-}
+	% make cross-references conjoined by -
+
 %\crefname{equation}{equation}{equations}
 %\Crefname{equation}{Equation}{Equations}% For beginning \Cref
 %\crefrangelabelformat{equation}{(#3#1#4--#5#2#6)}
