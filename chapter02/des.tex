@@ -1,0 +1,54 @@
+% ======================================================= DES
+\subsection{Large Eddy Simulation and Detached Eddy Simulation}
+
+LES is based on the observation that in fluid flow, the small turbulent structures are more universal in character than the large eddies. Therefore, the idea is to directly compute the large, energy-carrying eddy structures and model the effects of the small structures, which are not resolved by the numerical scheme. This is accomplished by a spatial filtering operation, which decomposes the flow variables into a filtered (large-scale, resolved) part and a sub-filter (subgrid-scale, unresolved) part. The subgrid-scale models are much simpler than the turbulence models for the RANS equations due to the homogeneous and universal character of the small scales.
+
+LES still remains too costly for complex engineering configurations so Spalart et al. suggested the Detached Eddy Simulation (DES) methodology, which is aimed at the simulation of massively separated flows at high Reynolds number \cite{Spalart1997,Spalart2000}. DES is a hybrid turbulence model that uses RANS to resolve the attached boundary layer and LES to model the detached eddies in regions of separation. Thus, DES combines the strengths of both methods in a single framework. The algorithm determines the mode of operation (RANS or LES) based on the length scale
+%
+\begin{equation}\label{eq:DES_d}
+    d_{\text{DES}} = \textrm{min}(d, C_{\text{DES}}\Delta)
+\end{equation}
+%
+where $d_{\text{DES}}$ is the distance to the wall, $C_{\text{DES}}$ is a constant of order one, and $\Delta = \textrm{max}(\Delta x, \Delta y, \Delta z)$ is the grid spacing measure.
+
+%\par
+%It is clear that the grid plays a very important role in the determination of the turbulence mode. Figure \hl{fig:DESgrids} illustrates three potential grids in a boundary layer. Type I is a normal RANS or DES grid with relatively large $\triangle_{\|}$. According to the DES switching algorithm (Equation \hl{DES}), $\tilde{d} = d$. Therefore the RANS mode will be used throughout the boundary layer as desired. Type II presents the situation where the wall parallel spacing is less than the boundary layer thickness, boundary layer thickness $\delta$. Type II grids may force an undesired switch to LES mode within the boundary layer where there is inadequate refinement. The Type III grid is a normal LES grid with near isotropic spacing.
+
+% ======================================================= DDES
+\subsection{Delayed Detached Eddy Simulation} 
+
+\abbreviationFull[Delayed Detached Eddy Simulation]{DDES} was introduced by Spalart et al. to avoid an undesired switch to LES mode within the boundary layer where there is inadequate refinement \cite{Spalart2006}. The following modifications were proposed to \say{delay LES function.} First, the parameter, $r$, was redefined from \cref{eq:SA_fwterms} to improve robustness in irrotational regions:
+%
+\begin{equation}\label{eq:rd}
+    r_d = \frac{\tilde{\nu}}{\sqrt{U_{i,j}U_{i,j}}\kappa^2d^2}
+\end{equation}
+
+The parameter, $r_d$, is used in the function
+%
+\begin{equation}\label{eq:fd}
+    f_d = 1 - \tanh([8r_d]^3)
+\end{equation}
+
+The new function is applied to the DES length scale
+%
+\begin{equation}\label{eq:d_tilde}
+    \tilde{d} = d - f_d\, \textrm{max}(0,\, d - C_{DES}\Delta)
+\end{equation}
+%
+such that $f_d = 0$ activates RANS mode in the boundary layer and $f_d = 1$ activates LES (\cref{eq:DES_d}). These modifications brought significant improvements to attached boundary layer modeling and flow separation detection during simulation \cite{Spalart2006}.
+
+%[45] P. R. Spalart, S. Deck, M. L. Shur, K. D. Squires, M. K. Strelets, and A. Travin, “A new version of detached eddy simulation, resistant to ambiguous grid den- sities,” Theoretical and Computational Fluid Dynamics, vol. 20, pp. 181–295, 2006.
+
+%[15] C. Hirsch, Numerical Computation of Internal & External Flows–Volume 1: Fun- damentals of Computational Fluid Dynamics. Burlington, MA: Butterworth- Heinemann, 2d ed., 2007.
+
+%[12] O. Reynolds, On the Sub-mechanics of the Universe: Papers on Mechanical and Physical Subjects, vol. 3. Cambridge University Press, 1903.
+
+%[11] S. B. Pope, Turbulent Flows. Cambridge, UK: Cambridge University Press, 2000.
+
+%[44] P. R. Spalart, “Trends in turbulence treatments,” 2000.
+
+%[42] P. R. Spalart and S. R. Allmaras, “A one-equation turbulence model for aerody- namic flows,” 30th Aerospace Sciences Meeting, 1992.
+
+%[43] D. C. Wilcox, Turbulence Modeling for CFD. La Canada, CA: DCW Industries, 3d ed., 2006.
+
+

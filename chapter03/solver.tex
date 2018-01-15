@@ -1,0 +1,11 @@
+\section{Flow Solver}
+
+OVERFLOW 2.2 is a three-dimensional, structured overset, finite-difference, parallelized, Navier-Stokes CFD code developed by NASA \cite{Buning2004}. OVERFLOW derives its name from an acronym for “OVERset grid FLOW solver.” 
+
+OVERFLOW employs several different inviscid flux algorithms, various implicit solution algorithms, a wide variety of boundary conditions, and a number of algebraic, one-equation, and two-equation turbulance models. 
+
+A notable feature of OVERFLOW is the diagonal form of the implicit approximate factorization algorithm of Pulliam and Chaussee \cite{Pulliam1981}, making OVERFLOW one of the fastest available codes for obtaining steady-state solutions.
+
+OVERFLOW features several convergence acceleration techniques, but only grid sequencing and multigrid were used for this research. Grid sequencing improves convergence by initially running the solution on coarser grids, allowing the solution to set up quickly and for the proper mass flow to quickly develop. In a multigrid algorithm, the solution is updated with contributions from coarser grid levels at each time step, allowing low frequency error waves to covect rapidly out of the computational domain.
+
+The OVERFLOW code was compiled with MPI for parallel computing and with double-precision for accuracy. MPI automatically decomposes the grid system and distributes the work between processors to achieve the best load-balance possible, allowing computations to be performed on larger HPC servers. The double-precision floating point number format represents numerical values with more significant digits, reducing round-off error.

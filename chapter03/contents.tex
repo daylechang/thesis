@@ -1,0 +1,20 @@
+% Chapter 03: Methodology
+
+\section{Grid Resolution Study}
+
+\section{Patch Size Study}
+
+\section{Some Other Study and How we will perform it}
+
+% Chapter 03
+
+The research so far has been confined to two dimensional steady-state Reynolds-Averaged Navier-Stokes (RANS). A preliminary investigation has already been performed. First, a flat plate in supersonic flow with a single bleed hole was considered for validation against previous numerical and experimental studies. A grid-resolution study was performed to ensure a grid-independent solution on a coarse, medium, and fine grid and compared with the experiment.  This grid-resolution study allowed insight into the grid resolution needed to adequately model the flow physics within the plenum. The massflow rates were calculated through both the hole and through the suction pipe for various plenum pressures for verification.
+
+The experiment \verb|cite willis davis hingst| that was used for validation was performed in the NASA Glenn Research Center 1 ft by 1 ft Supersonic Wind Tunnel (SWT) measuring mass flow rate through bleed holes at various Mach numbers. The quantities that were used in the validation were the boundary layer thickness and momentum thickness of the naturally boundary layer along the wind tunnel wall, the bleed hole diameter, the bleed hole depth, and the pressure ratios used in the experiment to draw air through the bleed hole. A plenum sat below the hole where the plenum pressure could be varied (which controlled the pressure ratio through the hole), varying the massflow rate through the hole.
+
+Both the numerical and experimental studies previously performed looked to measure the massflow accurately, so the studies were set up to either minimize or eliminate any flow recirculation by drawing air down through the bottom of the plenum. The Air Force Research Laboratory is setting up an experiment that will conduct a very similar experiment in bleed but will pull air through tubes located downstream and on the back face of the plenum which sets up a strong recirculation region, amplified within a two-dimensional simulation without any three-dimensional relief. Because of this issue, the size of the suction tubing centered on the back wall of the plenum was considered by using a small, medium, and large cross-sectional area as the varying parameter. This could provide insight into ways of reducing the strength of the recirculation within the plenum just by varying the size of the air being drawn. The results up to this point are detailed in the Discussion of Results.
+
+This research will then build upon the preliminary work by modeling multiple holes at different spacing and observe if any of the recirculation within the plenum has any effect on the ability to draw bleed through the holes. An unsteady shock will also be introduced as an upstream effect. Since unsteady shock motion is largely influenced by boundary layer turbulence, a study will be performed to determine an appropriate disturbance in generating an adequate unsteady shock motion in steady RANS or Unsteady RANS (URANS). It is possible none of the turbulence models or RANS simulations will capture shock motion, so a higher-fidelity method such as Large Eddy Simulation (LES) in two-dimensions could be considered. Since these simulations do not allow any flow relief in the third dimension, it is hypothesized that the effect of turbulence could be much stronger and induce some unsteadiness, even in a RANS simulation. Canonical geometries such as the forward facing step or a compression ramp will be considered as sources of unsteady shock.
+
+Overset grid methods were employed to model four different components: the tunnel, bleed hole, plenum, and suction tubing. Once the overset grids are set up, refining the grids and altering position or size becomes relatively trivial and greatly aides in turnaround time of the mesh generation. NASA's OVERFLOW code will be used to perform the CFD calculations on the overset grids.
+

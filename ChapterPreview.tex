@@ -1,0 +1,58 @@
+\documentclass[12pt,letterpaper,oneside]{book}
+
+
+\input{preamble/myPackages}
+\input{preamble/commonSymbols}
+%\input{Preamble/myFigures}
+%\input{Preamble/myTables}
+
+\begin{document}
+\frontmatter
+	\tableofcontents
+	%\listoffigures
+	%\listoftables
+	%\listofsymbols
+		% \symbol[#1]{#2} where #2 is symbol and #1 is the definition
+	%\listofabbreviations 
+		% \abbreviation[#1]{#2} where #2 is the abbreviation and #1 is the definition
+		% use \abbreviationFull[#1]{#2} to include the def in the text with abb in ()
+	\title{DRAFT}
+
+\mainmatter
+	
+	% ========================================================= Introduction
+	%\input{chapter01/introduction}
+
+	% ========================================================= Background and Theory
+	%\chapter{Background and Theory} \label{background}
+	%\input{chapter02/navier_stokes}
+	%\input{chapter02/boundary_conditions}
+	%\input{chapter02/rans}
+	%\input{chapter02/des}
+	%\input{chapter02/grid_generation}
+	%\input{chapter02/swbli}
+	%\input{chapter02/lit_review}
+	
+	% ========================================================= Methodology
+	%\chapter{Methodology} \label{methodology}
+	%\input{chapter03/grid_generation}
+	%\input{chapter03/solver}
+	%\input{chapter03/independence_studies}
+
+	% ========================================================= Results
+	\chapter{Results and Analysis} \label{results}
+	\input{chapter04/plenum}
+	\input{chapter04/shock_characterization}
+	\input{chapter04/mitigation}
+
+	% ========================================================= Conclusion
+	\chapter{Conclusion} \label{conclusion}
+	%\input{chapter05/contents}
+
+
+\backmatter
+	%\singlespace \bibliographystyle{afitStyleFiles/spiebib03} \bibliography{back/references} 
+
+
+
+\end{document}

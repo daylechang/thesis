@@ -1,0 +1,137 @@
+
+%derivations of the navier-stokes equation
+\section{Boundary Conditions}
+
+The Navier-Stokes equations are a set of partial differential equations (PDEs) for which an analytical solution does not currently exist, but can be solved approximately and iteratively using computers. In computing solutions to PDEs, the appropriate application of boundary conditions is a key ingredient in arriving at a unique and practical solution. The two most common boundary conditions as it pertains to the Navier-Stokes equations are the Dirichlet boundary condition, where the value of the function is specified on the boundary, and the Neumann boundary condition, where the normal derivative of the function is specified on the boundary. 
+
+The Dirichlet boundary condition is applied in the supersonic inflow, supersonic outflow, periodic, and specified pressure conditions where the values at the boundary are prescribed. Both the Dirichlet and Neumann boundary conditions are applied in the no-slip wall condition. The boundary conditions are enforced for higher-order methods by dummy nodes, artificial nodes surrounding the computational domain whose field values are set to expand the stencil. A simple overview of the no-slip wall, supersonic inflow, supersonic outflow, periodic, and specified pressure boundary conditions are presented in the following discussion.
+
+% ======================================================= No-Slip Wall
+\subsection{No-Slip Wall}
+
+The interaction between molecules of a viscous fluid and a solid surface create a condition where the fluid velocity is zero relative to the boundary, hence the name \say{no-slip} wall. The assumption that there is no heat transfer through the wall is additionally employed to determine the other conserved variables at the boundary
+%
+%\begin{equation}
+%\frac{\partial T}{\partial n}|_{\textrm{wall}} =  0
+%\end{equation}
+%
+%Thus, the conserved variables at the boundary are
+%
+\begin{equation}
+\vec{Q}_b = \begin{bmatrix} \rho_i \\
+  0 \\
+  0 \\
+  0 \\
+  \qty(\rho E)_i \end{bmatrix}
+\end{equation}
+%
+where the subscript $i$ denotes the value one node interior from the boundary and the subscript $b$ denotes the value at the node on the boundary. For implementations of higher-order methods at the boundary, the dummy node is prescribed values such that the fluxes, both convective and viscous, are zero through the boundary.
+%
+\begin{equation}
+\vec{Q}_d = \begin{bmatrix} \rho_i \\
+  -(\rho u)_i \\
+  -(\rho v)_i \\
+  -(\rho w)_i \\
+  \qty(\rho E)_i \end{bmatrix}
+\end{equation}
+%
+where the subscript $d$ denotes the value at the dummy node, or one node exterior from the boundary.
+
+% ======================================================= Inflow
+\subsection{Supersonic Inflow}
+
+Consider a supersonic flow and the type of domain boundary that is present at the inflow. If one examines the direction of signal propagation for this condition, the characteristics carry information from the exterior of the domain toward the interior in all cases. This indicates that all the information at the inflow boundary for a supersonic flow must be specified using the freestream conditions so that information will always be carried toward the boundary from the exterior. Thus the conserved variables at the boundary are
+%
+\begin{equation}
+\vec{Q}_b = \begin{bmatrix} \rho_\infty \\
+  (\rho u)_\infty \\
+  (\rho v)_\infty \\
+  (\rho w)_\infty \\
+  \qty(\rho E)_\infty \end{bmatrix}
+\end{equation}
+%
+where the subscript $\infty$ denotes freestream values. The dummy nodes are likewise prescribed the same interior values so that freestream values are propagated into the domain
+%
+\begin{equation}
+\vec{Q}_g = \begin{bmatrix} \rho_\infty \\
+  (\rho u)_\infty \\
+  (\rho v)_\infty \\
+  (\rho w)_\infty \\
+  \qty(\rho E)_\infty \end{bmatrix}
+\end{equation}
+
+% ======================================================= Extrapolate
+\subsection{Supersonic Outflow}
+
+The numerical implementation of the supersonic outflow boundary condition must prevent any outgoing disturbances from reflecting back into the flow field. At the outflow boundaries, the characteristics all carry the same sign for the supersonic case and the solution must be determined entirely from conditions based on the interior. Thus, the flow properties at the boundary are prescribed values one node interior from the boundary
+%
+\begin{equation}
+\vec{Q}_b = \begin{bmatrix} \rho_i \\
+  (\rho u)_i \\
+  (\rho v)_i \\
+  (\rho w)_i \\
+  \qty(\rho E)_i \end{bmatrix}
+\end{equation}
+%
+
+The dummy nodes are likewise prescribed the same interior values so that no information propagates into the domain
+
+\begin{equation}
+\vec{Q}_g = \begin{bmatrix} \rho_i \\
+  (\rho u)_i \\
+  (\rho v)_i \\
+  (\rho w)_i \\
+  \qty(\rho E)_i \end{bmatrix}
+\end{equation}
+
+% ======================================================= Specified Pressure
+\subsection{Specified Pressure Outflow}
+
+The specified pressure outflow boundary condition is useful to simulate discharge of flow into an ambient pressure such as a plenum, ambient air, or a vacuum. The implementation requires density and the three velocity components to be extrapolated from the interior of the physical domain to the boundary. Since the pressure is specified, the fifth conserved variable, energy, is determined from the equation of state (\cref{eqn:eqn_of_state}) as shown below%
+%
+\begin{equation}
+\vec{Q}_b = \begin{bmatrix} \rho_i + \qty(p_b-p_i)/c_0^2 \\
+  \rho_u \qty[u_d + n_x\qty(p_i-p_b)/\qty(\rho_0 c_0)] \\
+  \rho_v \qty[v_d + n_y\qty(p_i-p_b)/\qty(\rho_0 c_0)] \\
+  \rho_w \qty[w_d + n_z\qty(p_i-p_b)/\qty(\rho_0 c_0)] \\
+  p_b/\qty(\gamma-1) + \rho\qty(u^2 + v^2 + w^2)/2 \end{bmatrix}
+\end{equation}
+%
+where $p_b$ is the specified pressure at the boundary. Field values for the dummy node is obtained by linear extrapolation from the states $i$ and $b$.
+
+% ======================================================= Specified Pressure
+\subsection{Periodic}
+
+There are certain practical applications where the flow field is periodic with respect to one or multiple coordinate directions. In such a case, it is sufficient to simulate the flow within one of the repeating regions. The correct interaction with the remaining physical domain is enforced with a periodic boundary condition. The boundary condition is typically applied to two identical planes that are not collocated in space and is denoted below with the superscripts $1$ and $2$
+%
+\begin{equation}
+\vec{Q}_b^1 = \begin{bmatrix} \rho_i^2 \\
+  (\rho u)_i^2 \\
+  (\rho v)_i^2 \\
+  (\rho w)_i^2 \\
+  \qty(\rho E)_i^2 \end{bmatrix} \qquad \qquad 
+\vec{Q}_b^2 = \begin{bmatrix} \rho_i^1 \\
+  (\rho u)_i^1 \\
+  (\rho v)_i^1 \\
+  (\rho w)_i^1 \\
+  \qty(\rho E)_i^1 \end{bmatrix}
+\end{equation}
+%
+
+The dummy nodes follow the same principle and are prescribed values one node further into the domain, denoted by the subscript $i+1$ as shown
+%
+\begin{equation}
+\vec{Q}_d^1 = \begin{bmatrix} \rho_{i+1}^2 \\
+  (\rho u)_{i+1}^2 \\
+  (\rho v)_{i+1}^2 \\
+  (\rho w)_{i+1}^2 \\
+  \qty(\rho E)_{i+1}^2 \end{bmatrix} \qquad \qquad 
+\vec{Q}_d^2 = \begin{bmatrix} \rho_{i+1}^1 \\
+  (\rho u)_{i+1}^1 \\
+  (\rho v)_{i+1}^1 \\
+  (\rho w)_{i+1}^1 \\
+  \qty(\rho E)_{i+1}^1 \end{bmatrix}
+\end{equation}
+
+
+

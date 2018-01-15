@@ -1,0 +1,169 @@
+\section{Motivation}
+
+\subsubsection{Supersonic Design Considerations}
+%\emph{design considerations in supersonic applications}
+
+Shocks are a natural phenomenon that arise in many supersonic applications. When the shock interacts with the boundary layer, the \abbreviationFull[shock-wave/boundary layer interaction]{SWBLI} can be a significant design consideration in applications such as inlet design, wind tunnel testing, and aircraft design. Shock unsteadiness and vortical shedding then become important time-dependent problems that must be dealt with in design. If limiting this unsteady interaction is important for effective operation, configurations must become over-designed to increase control of the SWBLI, which can then quickly translate into increased time and money on a technology development. An ability to predict, model, or even stabilize shock behavior, could be desired to decrease design margins and come up with ways of mitigating undesired unsteadiness. 
+
+\subsubsection{Bleed Holes}
+
+One method in which this unsteady shock can be controlled to produce a steady or predictable behavior might be through air suction using bleed holes. Bleed holes have traditionally been used to remove the lower momentum part of the boundary layer to delay transition and increase massflow through inlets \cite{Davis2012Fibe}. 
+
+
+
+To better understand the flow structure involved in bleed, experimental research was conducted examining single holes \cite{Schoenenberger1999, Davis2012, Eichorn2013, Orkwis2013} and multiple holes \cite{Syberg1973, Paynter1993, Willis1995, Oorebeek2012}. Computational Fluid Dynamics (CFD) studies have followed \cite{Hamed2008, Choe2016, Duncan2016} that have provided additional insight and have also employed empirical curve fits as a bleed hole boundary condition \cite{Harloff1996, Baurle2011, Slater2012} in CFD codes. Through both experimental and computational results, bleed holes emerged as a stabilizing factor in flat plate SWBLI configurations\cite{Hamed1995}.
+
+\subsubsection{1}
+Boundary-layer control is an important topic in the design of supersonic inlets. In such an inlet, it is important to prevent flow separation and to control the effects of Shock-Wave/Boundary-Layer Interactions (SWBLI). The former can radically change the flow structure, while the latter can displace the shock wave pattern into a less efficient configuration. In addition, the terminal normal shock between the supersonic inlet and the subsonic diffuser is neutrally stable, and to ensure its placement, it is necessary to adjust the mass-flow rate reaching the diffuser in response to perturbations in the engine operation or inlet flow. It is possible to address all of these concerns with mass-flow removal via boundary-layer bleed wherein one or more regions of the inlet wall are porous to remove mass from the boundary layer. Thus, boundary-layer bleed decreases the mass-flow to the engine, mitigates the effects of adverse pressure gradients, and reduces the boundary-layer thickness, and thus, the SWBLI. Bleed configurations often are characterized by the sonic flow coefficient (Q), which is defined as:
+
+%$ Q = \frac{w}{w^*_i} $
+
+where the numerator is the measured mass-flow rate and the denominator is the ideal mass-flow rate under choked conditions:
+
+%$ w^*_i = \frac{\qty(P_{t,e}\cdot A_b)}{\sqrt{T_{t,e}}} \cdot $
+
+￼The sonic flow coefficient is typically presented as a function of the ratio of bleed plenum pressure to freestream (boundary-layer edge) total pressure (Pplen/Pt,e). For the present study, the total temperature at the boundary-layer edge (Tt,e) is assumed to be the same as the total temperature in the wind tunnel plenum chamber (Tt,0).
+A large library of flow coefficient data has been developed, beginning with McLafferty (Ref. 1), which was then expanded by Willis (Ref. 2). These collections are very configuration specific as they are multi-hole or slot configurations that only cover a limited range of hole/slot geometries and bleed-hole orientations. Davis (Ref. 3) showed that with two adjacent 90° holes, the flow coefficient at a choked condition can vary by as much as 6 percent depending on hole orientation. While Slater (Ref. 4) has developed a model for 90° bleed holes based upon the Willis data, that model should be compared with single hole data where there is no interaction between adjacent holes. \cite{Eichorn2013}
+
+\subsubsection{2}
+
+The aerodynamic design of inlets for supersonic flight has commonly included the use of porous bleed regions to reduce the adverse effects of shock/boundary-layer interactions and to enhance the stability of the shock system (Refs. 1 to 10).
+
+%Delery, J.M.: Shock Wave/Turbulent Boundary Layer Interaction and Its Control. Prog. Aerosp. Sci., vol. 22, no. 4, 1985, pp. 209-280.
+
+%Seddon, J.: Intake Aerodynamics. AIAA Education Series, New York, NY, 1985.
+
+%Hamed, A.; and Shang, J.S.: Survey of Validation Data Base for Shockwave Boundary-Layer Interactions in Supersonic Inlets. J. Propulsion, vol. 7, no. 4, 1991, pp. 617-625.
+
+%Fukuda, M.K.; Hingst, W.R.; and Reshotko, E.: Bleed Effects on Shock/Boundary-Layer Interactions in Supersonic Mixed Compression Inlets. J. Aircraft, vol. 14, no. 2, 1977, pp. 151-156.
+
+%Cubbison, R.W.; and Sanders, B.W.: Effect of Bleed-System Back Pressure and Porous Area on the Performance of an Axisymmetric Mixed-Compression Inlet at Mach 2.50. NASA TM X-1710, 1968.
+
+%Shaw, R.J.; Wasserbauer, J.F.; and Neumann, H.E.: Boundary Layer Bleed System Study for a Full- Scale, Mixed-Compression Inlet With 45 Percent Internal Contraction. NASA TM X-3358, 1976.
+
+%Mitchell, G.A.; and Sanders, B.W.: Increasing the Stable Operating Range of a Mach 2.5 Inlet. NASA TM X-52799, 1970.
+
+%Mayer, David W.: Prediction of Supersonic Inlet Unstart Caused by Freestream Disturbances. AIAA J., vol. 33, no. 2, 1995, pp. 266-275.
+
+
+
+ These bleed regions can consist of hundreds of small holes through which a portion of the low-momentum flow of the inlet boundary layer is extracted. This feature enhances the ability of the boundary layer to withstand the adverse pressure gradient and reduces the likelihood of boundary layer separation (Refs. 4 to 6). The bleed system can also help to remove excess flow to improve matching of flow rates between the inlet and engine (Refs. 9 and 10). This feature is important for stabilizing normal shocks near the throat of the inlet. The bleed flow is extracted by suction into a plenum and then either ducted for use by other aircraft systems or dumped overboard. While porous bleed has benefits, it requires a more complex and heavier inlet and can increase drag (Ref. 1 to 3). The effective use of porous bleed requires careful design of the location and flow rates for the bleed regions.
+
+The methods of computational fluid dynamics (CFD) have been applied to the aerodynamic analysis of supersonic inlet flows containing bleed regions (Refs. 11 to 13). The small scale of the bleed holes results in the typical approach of modeling the effects of porous bleed through the use of surface boundary conditions. Various bleed boundary condition models have been reported by many researchers (Refs. 14 to 22). These models follow the general approach of assuming the bleed region to be a continuously porous surface. The solution points located within the bleed region are computed as boundary conditions in which the local bleed rates and velocity components are computed. The individual bleed holes are not identified nor are the details of the flow within the bleed holes computed. The models attempt to capture the collective behavior of the bleed holes.
+The bleed model of Mayer and Paynter (Ref. 17) stands out as representing the current state of porous bleed modeling. This model was implemented within the Wind-US CFD code (Ref. 23). The inlet analyses of Reference 13 illustrate the use of this bleed model for a supersonic inlet analysis. The model allows the bleed rate to vary across the bleed region according to local conditions. This is important when shockwaves are interacting with the bleed region. For example, behind the shockwave, the static pressures are greater, which should result in a greater amount of bleed flow than ahead of the shock. The local bleed rate is calculated by extracting flow properties from the flow field and using a table lookup of empirically based sonic flow coefficients, Qsonic. The use of the Qsonicdata for the bleed model requires the CFD code to compute the Mach number, total pressure, and total temperature at the edge of the boundary layer. However, it may be computationally complex and time-consuming to locate each grid point at the boundary-layer edge, and can be especially difficult for unstructured-grid CFD codes. Furthermore, the edge of the boundary layer may not be well defined, such as in the case of a shock/boundary-layer interaction with extensive boundary-layer separation. Thus, a different approach for using the Qsonicdata is needed.
+
+The current work improves on the Mayer-Paynter bleed model by introducing a scaling of the Qsonic data for 90° bleed holes. The scaling is able to collapse the Qsonicdata for various Mach numbers to a trend that can then be fitted with a quadratic polynomial, which is only a function of the ratio of plenum static pressure to the surface static pressure. The scaling eliminates the requirement to compute the flow properties at the edge of the boundary layer. The curve fit also provides a rudimentary model for blowing within a bleed region, which can occur if there is recirculation within the bleed region in the presence of a shock. The next section discusses the bleed modeling and the scaling of the Qsonicdata. The improved bleed model was implemented into the Wind-US CFD code.
+
+The improved bleed model was demonstrated for flows over bleed regions on flat plates with and without shocks for which experimental data was available for comparison. The bleed model was also compared to three-dimensional CFD simulations of the flow through the bleed holes and plenum. Such simulations can provide details on the bleed flow useful for improving the bleed models. These simulations include a single bleed hole in uniform flow and a series of bleed holes interacting with an oblique shock. \cite{Slater2012}
+
+\subsection{Shock-Wave Boundary Layer Interaction}
+
+
+
+\cite{Piponniau2009}
+
+In many aeronautical applications, parameters of critical importance are imposed by unsteady conditions that can occur during flight, rather than steady conditions. Although these events are rare or do not contribute much to the local average energy, they can correspond to high local stress, which can affect the whole behaviour of the system. In supersonic flows, an important case occurs when unsteadiness involves shock waves producing locally large pressure fluctuations. They may act as strong aerodynamic loads and are felt along the whole flow downstream of the shock wave. This occurs in shock-induced separation, where low-frequency unsteadiness is produced. The separated region and the shock wave system that develops upstream of the separation line oscillate at low frequency, at least two orders of magnitude lower than the energetic scales present in the upstream boundary layer. For decades, the interaction with an incident shock and the compression ramp have been the two most documented cases (see Delery \& Marvin 1986). A recent review of the main properties of these flows can be found in Dolling (2001). The origin of these low frequencies is not totally understood, and several models have been suggested to explain their development. A major problem is to separate the low-frequency shock motions, which appear when the flow is separating, from the motions related to unsteady conditions of the upstream boundary layer. This type of unsteadiness is typically based on upstream energetic scales and generate some corrugations of the shock wave (Debieve \& Lacharme 1985; Wu \& Miles 2001; Garnier \& Sagaut ` 2002). The associated frequency scales differ by two orders of magnitude from the low frequencies of the shock motions.
+
+do the shock
+movements influence the instantaneous position of the separated region through some
+upstream perturbations, or does the unsteadiness of the separated bubble impose the
+large motions of the shock?
+
+determined that the main source of low-frequency unsteadiness in shock-induced separated flows seems clearly to be the dynamics of the separted bubble, and small variations in the upstream conditions seem unlikely to be the main reason for the large-amplitude motions of the separated bubble. 
+
+in experiments, the characteristic ferquency of shock motions and separated bubbles are affected by the shock intensity and are not related directly to any time scale of the upstream boundary layer.
+
+
+
+
+
+
+
+
+\subsection{Research Objectives}
+
+
+% This research aims 
+The summary of research described previously seems to fall categorically into three main effects that contribute to the mechanism of bleed: upstream effects, plenum effects, and geometric effects. 
+The upstream effect can be thought of as the effect an incoming boundary layer profile or a shock structure above the hole produced when interacting with the orifice flow is bled through. 
+The plenum effect can be thought of as dynamics that arise due to bleed flow traveling through a confined space such as the plenum. This flow sets up recirculation that influence the behavior of the flow above, within, and downstream of a bleed hole.
+The geometric effect can be thought of as the affect shape, size, or orientation could have on the behavior of upstream or plenum effects. %A visual example is shown in \Cref{figDifferentEffects}.
+These effects are closely related and determining how they affect one another is challenging, so this current study explores only plenum effects. 
+
+%\figDifferentEffects
+
+This work looks to extend the application of bleed holes by examining the effectiveness of bleed holes in stabilizing SWBLI around canonical shapes, such as forward and backward facing steps and small bumps. If active flow control is effective in shock stability around canonical shapes, applications can be found in wind tunnel testing, experimental data collection, and supersonic design. 
+%This work also looks to predict performance of a similar bleed experiment at the Air Force Research Lab (AFRL) that is to be conducted sometime in 2017. 
+The objective of this research is to develop a grid independent computational domain that can be validated against previous experimental work and to explore the validity of using a two-dimensional model to remove plenum effects. %The second objective is to examine plenum effects.
+
+
+
+
+Based on studying previous areas of research\cite{Oorebeek2012}, the author has identified three main categorical effects that contribute to the the mechanism of bleed: upstream effects, plenum effects, and geometric effects. The upstream effect can be thought of as an incoming boundary layer profile or a shock structure above the hole that is to be controlled. This is described as an effect because these flow properties could very well interact with the next two effects and produce a change in behavior. The plenum effect can be thought of as any dynamics in the plenum, mainly recirculation, that could influence the behavior of the flow within a bleed hole and beyond. The geometric effect can be thought of as any effect shape, size, or orientation could have on the behavior of upstream or plenum effects. These effects are thought to be very closely related and determining the relationship between them can be challenging, so this study will only explore upstream and plenum effects. It is important to note that there could be other important effects but in the perspective of active flow control for shock stability, these are the effects this research hopes to investigate further.
+
+Currently, a preliminary study has been performed involving a grid resolution study and a patch size study to look into the plenum effects. Studies that are planned involve looking at multiple holes, their location, modeling an unsteady shock, and exploring the effects each of these parameters have on being able to produce steady shock behavior. This research will look to develop CFD methods, tools, and processes to be able to better understand the mechanisms of bleed by performing a computational study and comparing to experimental data and empirical relationships\cite{Slater2009}. The hope would be that this research would propose new insights and perspectives into the flow during bleed with multiple holes.
+
+\section{Importance of SWBLI}
+
+A history of both experimental and computational efforts are outlined. Dolling \cite{Dolling2001} provides a concise summary of 50 years of shock-wave/boundary layer interaction research up to 2001. Gaitonde \cite{Gaitonde2013} follows up with an update on the progress of this field of research up to 2013, especially with the advances of the computational tools in the last decade.
+
+According to Dolling \cite{Dolling2001}, Ferri first recorded observation of SWBLI during testing of various airfoils at supersonic conditions \cite{Ferri1938, Ferri1940}. Shortly after, studies by Fage and Sargent, Ackeret et al., Liepmann \cite{Liepmann1946}, and Donaldson described the phenomenon at transonic speeds and the strong dependence of the interaction on the incoming boundary layer state. However, these early experiments were performed on curved surfaces, in a streamwise pressure gradient, and in small supersonic pockets within a subsonic flow which proved to be very difficult to investigate. Experiments in the late 1940s and late 1950s were performed in pure supersonic flow on canonical shapes still under investigation today: flat plates, external shock generators, flat plate with ramp, and flat plate with steps \cite{Beastall1950}, and axisymmetric bodies with flares or collars. 
+
+\section{History of SWBLI}
+SWBLI is an important design factor for a large number of applications in transonic and supersonic flows. These interactions, however weak or strong, occur so ubiquitously that consideration must be given for successful application of any kind of transonic or supersonic application, whether the flow is internal or external and regardless of the body in quesiton, whether aircraft, missiles, rockets, and projectives. The SWBLI affects or determines the maximum, mean, and fluctuating pressure levels on a body, which in turn affect the local stresses on the body, heat flux, and flow structure which can have the same impacts on other body surfaces, though the overall energy levels are not affected very much. 
+
+Vehicle and component geometry, structural integrity, material selection, and fatigue life must then be carefully considered in the design of thermal protection systems against weight and cost. Not just structurally, but thermal loads affect cooling requirements, localized stresses, materials
+
+Inlet design for supersonic flight, especially for a commercial transport aircraft that must operate at high efficiency and with a wide stability margin, poses many challenges and is an area dominated by shock/boundary-layer interactions. In a mixed compression inlet, high total pressure recovery requires that the terminal shock form just downstream of the inlet throat. However, the terminal shock is very sensitive to disturbances and may move upstream and ultimately out of the inlet, resulting in unstart that can result in large transient forces on the airframe and may cause engine surge. To stabilize the shock,boundary-layer bleed is employed near the throat. The selection of bleed location, hole/slot geometry, suction flow rate, etc., is a complex and difficult problem, and its solution in the past has generally relied heavily on extensive, and expensive, wind-tunnel tests. Based on the work of Zha et al.19 and others (see Ref. 19 for references) there is some indication now that computational fluid dynamics (CFD) may now be on the verge of playing a powerful role in reducing design cycle time and cost, as wel
+
+Unsteady shocks can cause fluctuating aerodynamic loads which affect the controls response system of aircraft and missile bodies. High-speed anti-armor, kinetic energy penetrators (Mach 4-8 at sea level) are configurations of interest to the U.S. Army that pose many simulation and experimental challenges due to the SWBLI. Following discharge from the gun, the sabot, typically consisting of three or four petals, breaks away, and three-dimensional,unsteady, laminar, transitional,and turbulent interactions sweep rapidly across complex geometries moving rapidly apart. Once in flight, lateral thrusters or control surfaces may be used to guide and control such projectiles. Accurate characterization of the transient aerodynamic coefficients is very important and will call for accurate modeling of SWBLI.
+
+These primary factors making flow control a key issue for future technology vehicles but regarded as a complicated and vexing problem. To make the proper tradeoffs in design, a deep, physical understanding of the mechanisms of these interactions must be understood with both experimental and computational tools that are both robust and accurate. Bur et al. illustrated this in an experiment that was unable to reduce drag with either active control (boundary-layer suction) or a hybrid method (passive control cavity and downstream suction slot) but in the end summarized that no recommendations could be made regarding the best approach.
+
+A 1996 NASA research announcement stated that \say{improved air-breathing engines will require a clearer understandingof the basic flow physics of propulsion system components.} The design higher performance inlets and nozzles that are \say{quieter, shorter, lighter} requires \say{benchmark quality data for flowfields including shocks, boundary layers, boundary layer control, separation, heat transfer, surface cooling and jet mixing.} These areas nearly all involve shock/boundary-layer interactionin one formor another. 
+
+\section{Mitigation}
+
+Control: The traditional approach for SBLI control has been through bleed techniques, which alter the near wall low energy region to mute the deleterious effects of the interaction. The search for a more optimal solution has taken several directions, including passive (e.g., microramps with and without auxiliary bleed) and active (e.g., plasma-based or microjet) control techniques. The combination of a better understanding of the unsteadiness and the development of new high-bandwidth actuators has led to strategies that seek to leverage fluid instabilities with small disturbances of suitable spectral characteristics with more potential for scalability. Some key results are summarized in Section VI.
+
+
+\cite{Settles1992} sdf asdfasdfasdff\cite{Dolling2001}
+
+f 
+
+
+% Harloff1996, Syberg1973, Schoenenberger1999, Saunders2014, Paynter1992} 
+% Willis1995, Slater2009
+% Papadakis2006, Orkwis2013, Oorebeek2012, Duncan2016
+% 
+% CFD
+% duncan
+% choe
+% 
+% Hamed1995
+% Hamed2008
+% 
+% Experimental single hole
+% davis
+% orkwis
+% *papadakis
+% schoeneberger
+% 
+% eichorn2013
+% 
+% Experimental mult hole
+% oorebeek
+% paynter
+% *saunders
+% syberg
+% willis
+% 
+% 
+% CFD / mult hole
+% harloff
+% baurle
+% slater
+
+
+
+%\subsection{Abstract}

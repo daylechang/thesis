@@ -1,0 +1,15 @@
+\section{Grid Generation}
+
+% ======================================================= Structured Grids
+\subsection{Structured Grids}
+
+% ======================================================= Overset Grids
+\subsection{Overset Grids}
+
+The overset grid method was developed by Benek, Buning, and Steger10 to allow the structured grid flow solvers of the 1980’s to be easily extended to more complex geometries than the grid generators would support at that time. 
+
+For modeling flows with viscosity about geometrically complex bodies in relative motion, the Chimera-overset-grid method is among the most computationally cost-effective methods for obtaining accurate aerodynamic results.
+
+\subsection{Flow Solver}
+
+Newton or dual-time sub-iterations are used to improve the accuracy of unsteady simulations, and can also improve the robustness of steady or unsteady simulations.  The sub-iterations improve the solution accuracy near interpolated and extrapolated boundaries and also reduce the global solution error at a given time step.  The solution is advanced one physical time step (DTPHYS) at the end of each sub-iteration cycle when Newton or dual-time sub-iterations are used.  In the following example 5 dual-time sub-iterations are used with second-order time advancement.  Note that the computational time step (DT) does not have to equal the physical time step (DTPHYS).  Also, the computational time step (DT) is non-dimensionalized by the free-stream speed of sound, while the physical time step (DTPHYS) is non-dimensionalized by the reference velocity.

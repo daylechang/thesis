@@ -1,0 +1,53 @@
+\documentclass[12pt,letterpaper,oneside]{book}
+
+\input{Preamble/myPackages}
+\input{Preamble/titlePage}
+\input{Preamble/myFigures}
+\input{Preamble/commonSymbols}
+
+\begin{document}
+\frontmatter
+	\flyleaf
+	\disclaimerpage                 
+	\titlepageAFIT                      
+	\committeepage  
+	\input{Front/abstract}
+	\input{Front/dedication}
+	\input{Front/acknowledgements}
+	\tableofcontents
+	\listoffigures
+	\listoftables
+	\listofsymbols
+	\listofabbreviations
+	\input{Front/preface}
+
+\mainmatter
+	\chapter{Background and Statement of the Problem}
+		\input{chapter01/contents}
+		
+	\chapter{Literature Review}
+		\input{chapter02/contents}
+
+	\chapter{Methodology}
+		\input{chapter03/contents}
+
+	\chapter{Data Description and Analysis}
+		\input{chapter04/contents}
+
+	\chapter{Findings and Conclusions}
+		\input{chapter05/contents}
+		blah \cite{abd}
+	
+\backmatter
+	\singlespace
+	\bibliographystyle{../StyleFiles/afitStyleFiles/spiebib03}
+	\bibliography{Back/myReferences} 
+
+	\input{Back/vita}
+	%\clearpage
+
+  	\input{Back/SF298}
+
+\end{document}
+
+

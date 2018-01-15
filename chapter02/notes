@@ -1,0 +1,232 @@
+\section{Flow Solver}
+
+% ======================================================= 
+\subsection{OVERFLOW}
+
+Solver Settings
+
+OVERFLOW 2.2 is a three-dimensional time-marching implicit Navier-Stokes code that can also operate in two-dimensional or axisymmetric mode.  The code uses structured overset grid systems.  Several different inviscid flux algorithms and implicit solution algorithms are included in OVERFLOW 2.2.  The code has options for thin layer or full viscous terms.  A wide variety of boundary conditions are also provided in the code.  The code may also be used for multi-species and variable specific heat applications.  Algebraic, one-equation, and two-equation turbulence models are available.  Low speed preconditioning is also available for several of the inviscid flux algorithms and solution algorithms in the code.  The code also supports bodies in relative motion, and includes both a six-degree-of-freedom (6-DOF) model and a grid assembly code. Collision detection and modeling is also included in OVERFLOW 2.2.  The code is written to allow use of both MPI and OpenMP for parallel computing applications.
+
+
+OVERFLOW 2.2 has two basic operational modes.  The code can still be run in the original OVERFLOW mode, in which the OVERFLOW-D specific inputs do not have to be specified.  The original OVERFLOW mode requires that all grids be supplied and assembled using PEGASUS 5 or SUGGAR prior to the start of the solution process.  An example of a grid set for the original OVERFLOW mode is shown in Fig. 1.1.  The OVERFLOW-D mode requires additional input files and NAMELIST input to control the DCF grid assembly, off-body grid generation, and 6-DOF or specified motion simulation.  Only the near-body grids need to be supplied in OVERFLOW-D mode since Cartesian outer grids can be automatically generated prior to grid assembly using DCF. An example of a grid set for OVERFLOW-D mode is shown in Fig. 1.2.    
+
+OVERFLOW 2.2 will automatically decompose near-body and off-body grid systems to achieve load balancing for parallel runs using MPI, based on the number of processors selected for that run.  The decomposed grids are automatically reassembled prior to generation of any output files, and thus the decomposition is completely transparent to the user.  This manual describes uncompressing and compiling the code, off-body grid generation, hole cutting, input files, run sequence and code execution, 6-DOF simulation, adaptation, parallel processing, and post-processing. This manual is not intended to be a comprehensive guide.  Rather, it is intended as a quick reference for users already familiar with the theory used to develop the flow solver and utility codes. 1.1Code History The OVERFLOW 21,2 Navier-Stokes computational fluid dynamics (CFD) code was developed by merging the OVERFLOW3,4 flow solver with the 6-DOF moving body capability of the OVERFLOW-D flow solver5,6,7,8,9.  The lineage of the code is shown in Fig. 1.3.  The overset grid method was developed by Benek, Buning, and Steger10 to allow the structured grid flow solvers of the 1980’s to be easily extended to more complex geometries than the grid generators would support at that time.  The OVERFLOW flow solver originally incorporated the diagonal form of the implicit approximate factorization algorithm of Pulliam and Chaussee11 and a second-order in space central difference approximation for the inviscid fluxes.   Mixed second and fourth order smoothing was added to the explicit and implicit side of the equations to provide numerical stability.  OVERFLOW derives its name from an acronym for “OVERset grid FLOW solver.”
+
+Buning, P.G., Gomez, R.J., and Scallion, W.I., “CFD
+ Approaches for Simulation of Wing-Body Stage 
+Separation,” AIAA-2004-4838, Aug. 2004.
+
+The Chimera Grid Tools1 (CGT) software suite developed at NASA Ames includes many useful utility codes wrapped in a graphical user interface called overgrid.  CGT includes utilities for building and modifying grids, overset grid diagnosis, building code input files, generating X-rays,  constructing  and viewing Geometry Manipulation Protocol2 (GMP) moving-body XML files, FOMOCO3 and USURP4 code for overset force and moment calculations, and much more.  CGT is required for running many of the OVERFLOW test cases, as well as for any aerodynamic force and moment integration in OVERFLOW.  More information on CGT is available at http://people.nas.nasa.gov/~wchan/cgt/doc/man.html.
+The PEGASUS 55 grid assembly code may be used to generate the overset communication files required for OVERFLOW 2.2.  PEGASUS 5 is particularly effective for steady-state problems, and is used for a number of the OVERFLOW test cases.  More information on PEGASUS 5 is available at http://people.nas.nasa.gov/~rogers/pegasus/status.html.
+PLOT3D6 is an old-style (command-driven) CFD visualization program.  Many of the OVERFLOW test cases include command files for PLOT3D visualization; Chimera Grid Tools also uses PLOT3D for illustrating results.
+Chimera Grid Tools, PEGASUS 5, and PLOT3D may all be requested from the website https://www.nas.nasa.gov/cgi-bin/software/start.
+The SUGGAR7 grid assembly code may also be used to generate the overset communication files required for OVERFLOW 2.2.  The code may be obtained from the developer Ralph Noack at Celeritas Simulation Technology (http://celeritassimtech.com).
+
+
+1. Chan, W.M., “The OVERGRID Interface for Computational Simulations on Overset Grids,” AIAA-2002-3188, June 2002.
+2. Murman, S., Chan, W.M., Aftosmis, M.J., Meakin, R.L., “An Interface for Specifying Rigid-Body Motions for CFD Applications”, AIAA-2003-1237, Jan. 2003.
+3. Chan, W.M., and Buning, P.G., “User's Manual for FOMOCO Utilities – Force and Moment Computation Tools for Overset Grids,” NASA TM 110408, July 1996.
+4. Suhs, N.E., Rogers, S.E., and Dietz, W.E., “PEGASUS 5: An Automated Pre-Processor for Overset-Grid CFD,” AIAA-2002-3186, June 2002.
+
+need a list of abbreviations
+list of symbols
+
+
+3. OVERFLOW-Mode Operation
+ 
+3.1 Required Input Files
+              OVERFLOW 2.2 can be run for single grid or multiple grid steady and unsteady flow applications without using the OVERFLOW-D options in the code.  This is referred to as OVERFLOW-mode, as opposed to OVERFLOW-D-mode.  For single grid applications that do not require loads calculations, only two input files are required to run the code: the grid file (grid.in) and a NAMELIST input file (over.namelist).  The format of the grid file is given in Appendix A. The grid must be a FORTRAN unformatted PLOT3D file.  Single- or multiple-grid PLOT3D format may be used for single grids.  The grid must match the precision (single- or double-precision) and the ENDIAN-ness (big- or little-ENDIAN) that was selected when the flow solver was compiled.  Utility codes are provided to convert the files if they are not in the proper format for the flow solver.  Grids should be checked to assure that they are right handed and have no negative volumes.  These checks can be performed by running OVERFLOW for 0-steps (which also checks the input files for errors), or by using the overgrid graphical interface in Chimera Grid Tools.  
+              
+              OVERFLOW 2.2 assumes that all grid blocks communicate using overset interpolation.  The interpolation can be set up using the grid assembly code contained in OVERFLOW 2.2 when the code is run in OVERFLOW-D-mode.  An additional input file is required when not running in OVERFLOW-D-mode.  The file may be generated using one of the grid assembly codes PEGASUS 51 or SUGGAR2.  This grid assembly file is named XINTOUT.  The XINTOUT file format is specified in Appendix A. This file must also match the precision (single- or double-precision) and the endian-ness (big- or little-endian) that was selected when the flow solver was compiled. 
+ 
+  The reference Mach number (REFMACH) and Reynolds number (REY) are taken from the &FLOINP NAMELIST input.  The reference Mach number (REFMACH) is set to the free-stream Mach number (FSMACH) if the reference Mach number is not specified.
+ 
+3.3 NAMELIST Inputs
+ 
+Notes on Newton or Dual-Time Sub-Iterations
+              Newton or dual-time sub-iterations are used to improve the accuracy of unsteady simulations, and can also improve the robustness of steady or unsteady simulations.  The sub-iterations improve the solution accuracy near interpolated and extrapolated boundaries and also reduce the global solution error at a given time step.  The solution is advanced one physical time step (DTPHYS) at the end of each sub-iteration cycle when Newton or dual-time sub-iterations are used.  In the following example 5 dual-time sub-iterations are used with second-order time advancement.  Note that the computational time step (DT) does not have to equal the physical time step (DTPHYS).  Also, the computational time step (DT) is non-dimensionalized by the free-stream speed of sound, while the physical time step (DTPHYS) is non-dimensionalized by the reference velocity.
+
+ 
+Newton sub-iterations are similarly specified using the following input.  Note that the time step DT is not set (or is set to 0), which causes it to be set to match the physical time step (DTPHYS).
+ 
+Notes on Grid Sequencing
+              Grid sequencing can be used to improve convergence by initially running the solution on coarser grids.  This allows the solution to set up quickly.  Note that no restart files are written during the grid sequencing portion of the calculation, but forces on a body will be calculated during the grid sequencing process.  The NAMELIST input for grid sequencing for 150 iterations on a coarse-grid level, 150 iterations on a medium-grid level, and 500 iterations on the fine-grid level would be
+               
+If the NAMELIST input FMG is set to TRUE the code will perform grid sequencing – even on a restart of the code.  Hence FMG should be set to false if grid sequencing is not desired.
+ 
+Notes on Multigrid
+              Multigrid is another convergence acceleration technique.  In a multigrid algorithm the solution update vector (Dq) is updated with contributions from coarser grid levels at each time step.  This allows low frequency error waves to be convected rapidly out of the computational domain.  Multigrid is generally used for steady state problems.  The input for a 3-level multigrid solution would be
+              When combined with grid sequencing, the multigrid algorithm uses at most NGLVL grid levels.  Thus multigrid is not used on the coarsest-grid level, and is used on reduced levels on medium-grid levels.  For example, the following input will run 150 iterations on the coarse level, 150 iterations (with 2-level multigrid) on the medium level, and 500 iterations (with 3-level multigrid) on the fine-grid level.
+ 
+Notes on Implicit Solvers
+              The implicit solvers ILHS=5 and 6 use Steger-Warming flux-split (upwind) Jacobians, and can be used with any of the right hand side options in the code.  However, if low-Mach number preconditioning is selected, they will revert to the central difference flux Jacobians.  The default values for the central difference implicit solvers ILHS=0 and 2 are set assuming they are to be used with the central difference right-hand side (IRHS=0).  These implicit solvers can be used in conjunction with upwind right-hand side algorithms (IRHS=2-5) if the NAMELIST parameters are changed from the default values.  The recommended smoothing values for using central difference implicit schemes with upwind right hand sides are
+
+3.4 Turbulence Model Specifications
+      OVERFLOW 2.2 contains several turbulence models.  Each of these turbulence models also contains a number of optional corrections and capabilities.  The following table contains the baseline turbulence models currently implemented in the code.
+
+| NQT | Turbulence Model                                                |
+| --- | --------------------------------------------------------------- |
+| 0   | Baldwin-Lomax7 algebraic model                                  |
+| 100 | Baldwin-Barth8 1-equation model                                 |
+| 101 | Spalart-Allmaras9 1-equation model with trip line specification |
+| 102 | Spalart-Allmaras9 1-equation model                              |
+| 202 | k-w10 2-equation model using DDADI implicit solver              |
+| 203 | SST11 2-equation model using DDADI implicit solver              |
+| 204 | k-w10 2-equation model using SSOR implicit solver               |
+| 205 | SST11 2-equation model using SSOR implicit solver               |
+
+ 
+Notes on Baldwin Lomax
+              The Baldwin-Lomax algebraic model requires that viscous regions (described in Appendix D) be specified in the &VISINP NAMELIST.  The start and end index specification for viscous regions can use negative numbers to indicate indices relative to the last index value.  For example, -1 represents Jmax (Kmax or Lmax), -2 represents Jmax-1, etc.  Thus a region specified as running from 1 to -1 in J will be applied from 1 to Jmax.  The ITTYP variable is set to 1 for boundary layers and to 2 for shear layers.  Separate viscous regions should be specified for each wall and shear layer in the flow field.  Note that the eddy viscosity will only be calculated in regions specified with the viscous regions input. 
+When specifying starting and ending indices for the coordinate direction normal to the applied turbulence model condition in the &VISINP section, the ending index indicates the end of the search region for the Fmax peak.  Thus the ending index should be beyond the expected edge of the boundary layer, and will serve to cut off the search for that edge if it has not been found closer to the wall.
+The various Baldwin-Lomax boundary layer models all use the same routines.  A cutoff value following the work of Degani-Schiff12 is incorporated, but left as an input variable.  For this mode of operation, the search for Fmax is stopped when F drops below the CUTOFF times the current Fmax.  For the standard Baldwin-Lomax model, CUTOFF is set to -1 (default).  (Since F is never negative, the search is never stopped because of the cutoff criterion.)  For the standard Degani-Schiff implementation, set CUTOFF=0.9.  Note that CUTOFF should be less than one.  CUTOFF is specified as the TLPAR1 parameter in NAMELIST &VISINP.  The search for Fmax is stopped when a blanked-out region is encountered.
+For the Baldwin-Lomax shear layer model, the parameter Cwk may need to be modified depending on the type of free shear layer being modeled.  Cwk is specified as the TLPAR1 parameter in NAMELIST &VISINP.  The default value is 2.  The search for the center of the shear layer skips over blanked-out regions.
+When more than one Baldwin-Lomax turbulence region is specified and the viscous regions are allowed to overlap, the maximum of the eddy viscosities from all the regions at each point is used in the viscous flux calculations.  An example NAMELIST for a channel flow with a k dimension of 101 is
+ 
+Notes on Setting Boundary Layer Transition Location       
+              The viscous regions input (Appendix D) can also be used to turn off the production terms for the Baldwin-Barth, Spalart-Allmaras, k-w, and SST models in the specified region of the flow.  This can be used to force boundary layer transition at a given point in the flow.  This methodology does not accurately simulate the actual boundary layer transition process – but it does provide a convenient method for assessing the effect of transition location.  This is done by setting ITTYP=102 in the &VISINP NAMELIST.  The following is an example for forcing transition at the j=15 point in the grid.
+ 
+Notes on Compressibility and Temperature Corrections to the SST Model
+              The SST model also includes corrections for compressibility14 and temperature15.  Compressibility tends to reduce the mixing in a flow.  Compressibility effects on the turbulence model begin at about a local Mach number of one.  The compressibility correction is controlled with the ICC input in NAMELIST &VISINP.  The compressibility correction should normally be included with this model and this is the default.  The temperature correction is controlled with the ITC input in NAMELIST &VISINP.  The temperature correction can be used when simulating the mixing of two streams with greatly differing total temperature values.  A total temperature gradient will cause an increase in the mixing of the two streams.  This correction should be used with care, and is off by default.
+ 
+Notes on DES and DDES Hybrid RANS/LES Models
+              The Spalart-Allmaras and SST models also include options for running these models as hybrid RANS/LES  models.  The detached eddy simulation (DES16) and delayed detached eddy simulation models (DDES16) models are available for the Spalart-Allmaras and SST models.  The SST Multi-Scale model17 is also available.  These models are invoked by specifying the IDES input in NAMELIST &VISINP.  These models can also be used with the rotation and curvature corrections, compressibility corrections, and temperature corrections.
+ 
+ 
+3.6 Boundary Condition Specification
+All boundaries must have a boundary condition specified in the &BCINP NAMELIST, with the exception of interpolated boundaries.  As with viscous regions, the start and end index specification for boundary conditions can use negative numbers to indicate indices relative to the last index value.  For example, -1 represents Jmax (Kmax or Lmax), -2 represents Jmax-1, etc.  Thus a region specified as running from 1 to -1 in J will be applied from 1 to Jmax.  When specifying a boundary condition region, it is expected that the start and end indices will be equal in the coordinate direction normal to the applied boundary condition (IBDIR).   The only exceptions to this rule are prescribed Q (IBTYP=42), blanked-out region (IBTYP=61), copy-to/copy-from (IBTYP=70/71), vortex generator vane model (IBTYP=601), and the unsteady flow output region (IBTYP=201).  Boundary conditions are applied in the order in which they are specified.   A list of boundary conditions supported in OVERFLOW 2.2 is given in Appendix C.
+ 
+Notes on Wall BC’s IBTYP = 1-9
+Wall boundary conditions (IBTYP=1-9) use a slow start if the free stream Mach number is above 0.5.  The slow start ramps the imposition of the boundary condition from time step 0 to time step 30.  For the constant temperature wall boundary conditions (IBTYP=3,4,7,8), Twall (degrees Rankine) is specified by setting BCPAR1 in NAMELIST &BCINP.  IBTYP=9 gives a viscous adiabatic wall with rotation.  BCPAR1 specifies the rotation rate (radians per unit time, non-dimensionalized by Vref), and BCPAR2=1,2,3 gives the axis of rotation (x, y, or z).
+ 
+Notes on Periodic BC’s IBTYP = 10,18
+              Two types of periodic boundaries are supported in OVERFLOW 2.2.  IBTYP=10 is used for grids such as bodies of revolution where the first and last planes for a given index are identical in space.  The boundary condition does not require any additional grid planes.  IBTYP=18 may be used for periodic boundaries such as an infinite channel where the first and last plane are identical, but not co-located in space.  Both boundary conditions need only be applied to one plane (normally the J, K, or L=1 plane).  The boundary condition will update both planes in the solution process.  All periodic boundaries are treated implicitly inside the code.
+ 
+Notes on Symmetry BC’s IBTYP = 11-13,17
+The symmetry boundary conditions IBTYP=11,12,13 require a reflection plane be included in the grid.  The flow equations will be solved on the symmetry plane and the boundary condition is applied on the reflection plane.  The symmetry boundary condition IBTYP=17 does not require a reflection plane be included in the grid.  This boundary condition is a slip wall with second-order extrapolation, and hence the flow equations are not solved on the symmetry plane.  The slip wall boundary conditions (IBTYP=1 and 2) can also be used for a symmetry boundary condition.  
+ 
+Notes on Polar Axis BC’s IBTYP = 14-16
+The polar axis boundary conditions (IBTYP=14,15,16) extrapolate values to the axis to set the derivative to zero at the axis.  The value at the axis is computed as
+ 
+
+![](file:///C:\Users\PAULIN~1\AppData\Local\Temp\msohtmlclip1\01\clip_image011.gif)
+
+
+                                  (3.5)
+ 
+where f0 is the desired value at the axis, and fn the value at the nth point from the axis.  Setting a=0 results in 0th-order extrapolation, while a=1 reflects a 1st-order condition.  The value of a is specified by setting BCPAR1 in NAMELIST &BCINP.  The default value for a is 1. The most stable value for a is 0.  Once values are extrapolated for all points around the axis, they are averaged to obtain the final value used on the axis.
+ 
+Notes on 2D BC IBTYP = 21
+              The 2D boundary condition IBTYP=21 assumes that the flow is in the x-z plane.  The grid should contain three constant y-planes with y=-1, 0, and 1.  The best code efficiency occurs when the L-index is used for the y-planes (Lmax=3).  This boundary condition may be applied to the first or last index plane.
+ 
+Notes on the Axisymmetric BC IBTYP = 22
+              The axisymmetric boundary condition IBTYP=22 assumes that the flow is in the x-z plane.  The grid should contain three planes with the first and last planes rotated +/-1o from the center plane.  The best code efficiency occurs when the L-index is used for the y-planes (Lmax=3).  This boundary condition may be applied to the first or last index plane.
+               
+Notes on Supersonic/Subsonic Inflow/Outflow BC IBTYP = 32
+              The supersonic/subsonic inflow/outflow boundary condition (IBTYP=32) does the following: for supersonic inflow, boundary values are left at their current state; for subsonic inflow, a characteristic condition based on Riemann invariants is applied (also referencing existing flow conditions on the boundary); for subsonic outflow, pressure is held constant while other flow quantities are extrapolated; and for supersonic outflow, all variables are extrapolated.  Note that this condition typically uses some or all values already on the boundary.  Other boundary conditions, however, use this condition in combination with fixing certain boundary values.
+              General advice: use ITBYP=47 as a “general-purpose” far-field boundary condition instead of 32.  BC 32 is subject to corruption of flow conditions on the boundary due to transient flow during convergence (for example, the boundary becoming outflow temporarily).  BC 32 can also exhibit glitches where a far-field boundary switches from inflow to outflow, due to the different types of boundary conditions imposed.
+ 
+Notes on Freestream/Characteristic Inflow/Outflow BC IBTYP = 47
+              This boundary condition imposes free-stream conditions on the boundary, then applies a characteristic condition, taking information from the boundary or the interior of the domain, as appropriate, based on the velocity component normal to the grid boundary.  This boundary condition is appropriate for use as a general-purpose far-field condition.
+ 
+Notes on Specified Pressure Outflow BC IBTYP = 33
+The specified pressure outflow condition (IBTYP=33) fixes pressure and extrapolates other flow quantities.  This boundary condition can be used to control mass flow for internal flows.  Mass flow can be adjusted by changing the specified pressure value.  The outflow pressure p/p∞ is specified by setting BCPAR1 in NAMELIST &BCINP.
+ 
+Notes on Specified Mass Flow BC’s IBTYP = 34,36
+              The mass flow boundary conditions IBTYP=34,36 attempt to drive to a specified mass flow rate by adjusting the exit pressure for an internal flow.   For IBTYP=34, the pressure will be a constant across the exit face, while for IBTYP=36, the pressure is allowed to vary.  The current flow rate predicted by the code is calculated using the FOMOCO subroutines, allowing the integration plane to be composed of multiple grids.  The target mass flow is specified by setting BCPAR1 in NAMELIST &BCINP.  BCPAR2 is used to specify the number of time steps between updates of the exit pressure and the relaxation value for the exit pressure.  This is done to improve the convergence and robustness of this boundary condition.  The relaxation value varies between 0 and 1.  BCPAR2=10.5 would tell the code to update the pressure every 10 time steps with a relaxation value of 0.5.  The default value for BCPAR2 is 1.2 (update every iteration with 0.2 relaxation factor).  BCFILE is used to specify the name of the component surface in the FOMOCO input file to be integrated to get the mass flow.  The reference area (Aref) will also be obtained from the specified FOMOCO input file for the component surface name specified in BCFILE.   The target non-dimensional mass flow () is defined as
+ 
+              The mass flow used with turbine engines is often specified in terms of the “corrected mass flow” (), where a correction is used to scale the mass flow to standard day sea-level conditions.  The corrected mass flow is defined as
+ 
+where
+ 
+Here the standard day temperature (Tsd) is taken as 518.67oR and the standard day pressure (psd) is 14.6958 psi.  The target non-dimensional mass flow for this boundary condition using corrected mass flow can then be written as
+
+where rsd is standard day density (0.07657 lbm/ft3) and asd is the standard day speed-of-sound (1117 ft/sec).  Rsd and R∞ are the standard and reference gas constants respectively.
+ 
+Notes on Inflow BC IBTYP = 41, 141, 143
+The inflow boundary conditions IBTYP=41, 141, and 143 allow total pressure (pt/pt∞) and total temperature (Tt/Tt∞) to be specified using BCPAR1 and BCPAR2, respectively.  All of these boundary conditions use a Riemann extrapolation of static conditions with the total conditions to determine the inflow values.  IBTYP=41 does this on a point-by-point basis.  Existing velocity direction on the boundary face is used, and velocity magnitude may vary across the face.  IBTYP=141 averages over the face and sets uniform conditions on the boundary with a velocity normal to the face.  These boundary conditions are often used for nozzle inflow cases since they can allow the mass flow to vary during the convergence process.  Note that the entire face must be included in a single grid for the averaging in boundary condition IBTYP=141 to work properly.  IBTYP=143 is the same as 141, except that BCFILE is used to specify a FOMOCO component for averaging of static flow conditions and surface normal.
+ 
+ 
+3.7 Unsteady Flow Output Options
+Two options for extracting information from unsteady flow calculations for post-processing have been incorporated into OVERFLOW 2.2.   The first option is to output the current values of the solution variables for a specified region of the flow.  This is accomplished through specifying a region using boundary condition IBTYP=201.  The output for any grid may be a point, line, surface, or volume subset of the grid.  The output is written to a Fortran unformatted output file.  The file format can be found in Appendix A.  This file is not deleted during restarts, and output from subsequent runs is appended to the file.  Unsteady output files are not written for coarse mesh solutions during grid sequencing.  BCPAR1 can be used to specify the iteration number to start saving flow information, and BCPAR2 can specify the iteration increment for saving.  Information will be saved when mod(step#,BCPAR2)=0.  The output file will be written to the file name specified by BCFILE.  If no name is specified, the file will be written to the file BC_201.n.ib where n is the grid number and ib is the BC number.
+              For the second option, it is sometimes desirable to obtain a time-averaged flow field for the entire grid system during an unsteady flow simulation.  This can be accomplished by setting the ISTART_QAVG input variable in the &GLOBAL NAMELIST to the iteration number when the user would like to begin averaging.  A file called q.avg will be output using a modified PLOT3D Q file format, described in Appendix A. 
+              The following example input is for a generic weapons bay.  This input file uses both unsteady output options.  The grid system has two grids, a flat plate and the bay.  The time-averaging of the unsteady flow field begins after iteration 2300.  The Q variables for each time step are extracted on the bay centerline using BC 201, for later Fourier analysis.
+              This example also uses the DCF grid assembly, which will be described in Chapter 4.  Triple-fringe interpolations are used in conjunction with 4th- and higher-order inviscid flux schemes.
+ 
+3.8 Initializing the Solution
+            The flow will be initialized to the conditions in the &FLOINP NAMELIST (FSMACH, ALPHA, BETA, RETINF (for 1- and 2-equation turbulence models), and XKINF (for 2-equation turbulence models) when RESTRT=.FALSE.  This is the normal mode for initializing the flow field.   Boundary condition IBTYP=42 can also be used to initialize a boundary to some other value. 
+              The user may also generate a restart file (q.restart) and use this file to initialize the flow field by setting RESTRT=.TRUE..   Previous solutions at different values of FSMACH, ALPHA, BETA, RETINF, or REY may also be used to initialize the flow field.  OVERFLOW 2.2 will adjust values in the Q file for the input parameters that have been changed (i.e., rotate the velocity vector or scale the conserved variables for varying free-stream Mach number).  This is often an easy way to initialize complex flow fields once an initial flow solution is obtained at one condition.
+              Supersonic and hypersonic flows with blunt forward-facing surfaces are often hard to initialize when using upwind flux algorithms.  These upwind algorithms will generate a non-physical bow shock between the surface and the first point off the wall.  This is a numerically-acceptable solution for an upwind solver in supersonic flow, since the eigenvalues of the flux system are all possitive.   Two methods may be used to avoid this difficulty.  The first option is to start the solution with a transonic or low supersonic free-stream Mach number.  Once a region of subsonic flow is obtained in the nose region, the free-stream Mach number may be increased with successive restarts.  It is often convenient to use the coarse mesh with grid sequencing during this ramp-up to expedite the process.  (It is often sufficient to take one step with FSMACH=0.8 before resetting FSMACH to the desired value.)  A second option is to initially run the solution using the central difference flux algorithm and switch to the upwind algorithm after subsonic flow is established in the nose region.  Again it is usually good to perform these initializing runs using the coarse grid and grid sequencing.  It also may be necessary to increase the 2nd-order smoothing (DIS2) and 4th-order smoothing (DIS4) for the central difference algorithm above the default values during the initializing steps.  Values of DIS2=5, DIS4=0.1 are recommended.
+              Grid sequencing may be used to allow the proper mass flow to develop quickly on the coarse grids for internal flows as shown in the following example for a two-dimensional duct.
+ 
+The solution will only be calculated on the coarse grids using this input.  The inflow boundary is specified to have pt/pt∞=1.0 and Tt/Tt∞=1.0.  The outflow pressure is set to p/p∞=1.0.  The inflow or outflow conditions may be varied to obtain the desired mass flow for the duct.  The solution can then proceed to the intermediate and fine grids.             
+ 
+Example 3.19 overplot utility 
+ 
+              The solution is written to the q.save restart file.  The format of the restart file is in Appendix A.  The restart file is written out at the time step increment given by the &GLOBAL NAMELIST parameter NSAVE (default = 100).  The restart file will be written to a file named q.# where number is the iteration number if NSAVE is set to a negative number.  (In this case a q.save file is also written on completion of the run.)  The overrun or overrunmpi script automatically copies the q.save file to q.restart prior to starting the code.  If OVERFLOW is run without the script, this must be done manually.  Note that writing a q.save file can take a significant amount of time, especially for a large grid system using MPI.  For efficiency, be sure that the solution is saved only as often as necessary for checkpointing or saving the run.  If NSAVE=0, q.save is only written at the end of the run.
+After each iteration, OVERFLOW 2.2 checks for the existence of a file named STOP in the current directory.  If this file exists, the code will save the current flow solution and stop.  This can be used to stop a run gracefully, without losing the work done so far.  For example, if a job has been running for an extended length of time, one can go to the directory where the job was started from and type touch STOP.  This creates a (zero-length) file STOP.  When OVERFLOW 2.2 finishes the current iteration, it finds the file, saves q.save, and stops.  As an alternative, an asci STOP file can be created containing an iteration number.  If OVERFLOW has passed this iteration, the code will write q.save and stop at the end of the current iteration; otherwise it will stop at the end of the specified iteration.  The STOP file is deleted by OVERFLOW 2.2 before exiting.  The overrun and overrunmpi scripts will check for a STOP file before starting.  If this file is found, the run will be aborted.  (The contents of the file are not checked.)
+OVERFLOW 2.2 also checks for a SAVE file following each iteration, though this check is only done during iterations on the fine-grid level.  This file can be created using the touch command similar to the STOP file discussed in the previous paragraph.  If the SAVE file is an asci file containing an iteration number, a q.save file is written after that iteration, and the run continues.  If no number is present, or the iteration is already past, a q.save file is written after the current iteration.
+The code may be run in parallel using MPI, OpenMP, or in a hybrid mode that uses both MPI and OpenMP.  The MPI mode can be used for both distributed memory machines (PC clusters) and shared memory machines.  MPI divides the work between processors based on the grid system.  The grid system will be decomposed and groups of subgrids will be established for load balancing when using MPI.  MPI will almost always yield good parallel performance.  OpenMP is useful for shared memory machines or dual- or quad-core machines.  OpenMP performs parallelization at the loop level in the code, and hence does not require grid decomposition.  Not all machines or compilers will have good parallel performance when using OpenMP.  The hybrid mode is useful on machines that will support both MPI and OpenMP.
+The grid system is automatically decomposed when using MPI to achieve the best load-balancing possible.  The number of groups for the run is set to the number of MPI processes selected for the parallel run.  The default load-balancing scheme is based on equal distribution of grid points between processes (i.e., target group size).  Grids are split in half (with overlap added) until each grid is less than half the target group size.  Grids are then distributed, from largest to smallest, to the current smallest group.  Besides the number of grid points, each grid is additionally weighted by whether multigrid is used, and if multiple iterations are done compared to other grids (ITER in NAMELIST &NITERS).  This scheme works quite well for grid systems with large numbers of grids, and reasonably well for smaller systems.   Grid splitting introduces additional explicit boundaries, which affects the convergence behavior of the implicit algorithms in the code.  Sub-iterations can be used to reduce the effect of the interpolated boundaries.
+OVERFLOW allows the user to control the load-balancing process, but these inputs are rarely used in code execution.  The grdwghts.restart file contains previous timing information for each grid.  If the &GLOBAL NAMELIST parameter GRDWTS=.TRUE., the code will use the information in this file to perform the load balancing.  If GRDWTS=.FALSE., the code will use the default load-balancing scheme.  The input parameter MAX_GRID_SIZE can be used to explicitly control the splitting of grids.  MAX_GRID_SIZE=0 selects the default grid splitting algorithm.  If MAX_GRID_SIZE>0, the code will use the specified weighted grid size for splitting.  If MAX_GRID_SIZE<0, grids will not be split.
+In OVERFLOW-D-mode, some additional controls are available.  In the &GROUPS NAMELIST, input parameters MAXNB and MAXGRD substitute for MAX_GRID_SIZE, and allow distinction between the splitting of near-body and off-body grids, respectively.  The input parameter WGHTNB is an additional weight-factor applied to near-body grids, in case a different numerical scheme is used which significantly affects the processing of these grids.  Finally, IGSIZE sets the maximum group size of each MPI process during grid adaptation.  This allows the code to stop if the adaption procedure produces a grid system that is too large for the current number of MPI processes.
+
+References
+ 
+
+1. Suhs, N.E., Rogers, S.E., and Dietz, W.E.,”PEGASUS 5: An Automated Pre-Processor for Overset-Grid CFD,” AIAA-2002-3186, June 2002.
+2. Noack, R., “SUGGAR: A General Capability for Moving Body Overset Grid Assembly,” AIAA-2005-5118, Jun. 2005.
+3. Chan, W.M., and Buning, P.G., “User's Manual for FOMOCO Utilities – Force and Moment Computation Tools for Overset Grids,” NASA TM 110408.
+4. Boger, D., and Dreyer, J., “Prediction of Hydrodynamic Forces and Moments for Underwater Vehicles Using Overset Grids,” AIAA-2006-1148, Jan., 2006.
+5. Pandya, S.A., Venkateswaran, S., and Pulliam, T.H., “Implementation of Preconditioned Dual-Time Procedures in OVERFLOW”, AIAA-2003-0072, Jan. 2003.
+6. Potsdam, M.A., Sankaran, V., and Pandya, S.A., “Unsteady Low Mach Preconditioning with Application to Rotorcraft Flows,” AIAA-2007-4473, June 2007.
+7. Baldwin, B.S., and Lomax, H., “Thin Layer Approximation and Algebraic Model for Separated Turbulent Flows,” AIAA-78-0257, Jan. 1978.
+8. Baldwin, B.S., and Barth, T.J., “A One-Equation Turbulence Transport Model for High Reynolds Number Wall-Bounded Flows,” AIAA-91-0610, Jan. 1991.
+9. Spalart, P.R., and Allmaras, S.R., “A One-Equation Turbulence Model for Aerodynamic Flows,” AIAA-92-0439, Jan. 1992.
+10. Wilcox, D.C., “Reassessment of the Scale-Determining Equation for advanced Turbulence Models, AIAA Journal, Vol. 26, No. 11, 1988, pp. 1299-1310.
+11. Menter, F.R., and Rumsey, C.L., “Assessment of Two-Equation Turbulence Models for Transonic Flows,” AIAA-94-2343, June 1994.
+12. Degani, D., and Schiff, L.B., “Computation of Supersonic Viscous Flows Around Pointed Bodies at Large Incidence,” AIAA-83-0034, Jan. 1983.
+13. Nichols, R.H., “Algorithm and Turbulence Model Requirements for Simulating Vortical Flows,” AIAA-2008-0337, Jan. 2008.
+14. Suzen, Y.B., and Hoffmann, K.A., “Investigation of Supersonic Jet Exhaust Flow by One- and Two-Equation Turbulence Models,” AIAA-98-0322, Jan. 1998.
+15. Abdol-Hamid, K., Pao, S., Massey, S., and Elmiligui, A., “Temperature Corrected Turbulence Model for High Temperature Jet Flow,” AIAA-2003-4070, June 2003.
+16. Spalart, P.R., Deck, S., Shur, M.L., Squires, K.D., Strelets, M.K., and Travin, A., "A New Version of Detached-Eddy Simulation, Resistant to Ambiguous Grid Densities,"  Theor. Comput. Fluid Dyn., Vol. 20, 2006, pp. 181-195.
+17. Nichols, R., “Comparison of Hybrid RANS/LES Turbulence Models for a Circular Cylinder and a Cavity,” AIAA Journal, Vol. 44, No. 6, June 2006, pp. 1207-1219.
+18. Sickles, W.L., and Steinle, F.W., Jr., “Global Wall Interference Correction and Control for the NTWC Transonic Test Section,” AIAA-97-0095, Jan. 1997.
+
+
+
+% ================= boundary conditions
+
+
+OUTFLOW
+
+In supersonic outflow, the flow leaves the physical domain and all the conservative variables at the boundary must be determined from the solution inside the domain. Since no information can enter the domain from the boundary in supersonic flow, constant extrapolation is a valid implementation of the variables in the ghost clles:
+
+rho1 = rho2
+u1 = u2
+E1 = E2
+
+
+no-slip
+
+for a viscous fluid at the wall, the relative velocity between the surface and the fluid directly at the surface is assumed to be zero. The cartesian velocity components become
+
+u = v = w = 0
+
+at the surface. To implement this, the ghost cells are given
+
+rho1 = rho2
+u1 = -u2
+v1 = -v2
+w1 = -w2
+E1 = E2
+
+the pressure gradient normal to the wall is zero so the pressure in the boundary element is prescribed also in the ghost cells (p0 = p1 = p2). If the wall is assumed adiabatic (pdv t, x = 0) then T1 = T2, therefore E1 = E2.
+
+LES
+
+The LES methodology was proposed in 1963 by Joseph Smagorinsky to simulate atmospheric air currents,[1] and first explored by Deardorff (1970).[2] The principal idea behind LES is to reduce the computational cost by ignoring the smallest length scales, which are the most computationally expensive to resolve, via low-pass filtering of the Navier–Stokes equations. Such a low-pass filtering, which can be viewed as a time- and spatial-averaging, effectively removes small-scale information from the numerical solution. This information is not irrelevant, however, and its effect on the flow field must be modeled called subgrid-scale models.
+
+http://adsabs.harvard.edu/abs/1963MWRv...91...99S
+http://adsabs.harvard.edu/abs/1970JFM....41..453D
+

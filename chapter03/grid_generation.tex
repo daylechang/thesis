@@ -1,0 +1,48 @@
+\section{Grid Generation}
+
+% ======================================================= CGT
+\subsection{Chimera Grid Tools}
+
+
+\abbreviationFull[Chimera Grid Tools]{CGT} is a software suite developed at NASA Ames \cite{Chan2002} that contain a large collection of tools for building, modifying, and diagnosing overset grids for CFD applications. The CGT software contain a large number of Fortran or TCL programs that are called in batch mode but wrapped into a main graphical user interface (GUI) called OVERGRID \cite{Chan2010}. The GUI facilitates the generation of grids for a new flow configuration and once the user becomes familiarized with the tools, the grid generation process can be automated for similar configurations. 
+
+The scripting tools in the CGT suite were used to create surface geometry that were extruded into the flow to create the CFD domain. The scripts were also configured to produce the input files necessary for the grid assembly process discussed in the next section. For force and moment calculations over a surface, the FOMOCO tool is used to generate the appropriate inputs. 
+
+The grid file must be a FORTRAN, double-precision, unformatted PLOT3D file. Grids were checked to assure that they are right-handed and have no negative volumes.
+
+% Steger, J. L., Dougherty, F. C. and Benek, J. A., "A Chimera Grid Scheme," Advances in Grid Generation, K. N% . Ghia and U. Ghia, eds., ASME FED-Vol. 5, June, 1983.
+% 
+% Chan, W. M.," Advances in Software Tools for Pre-processing and Post-processing of Overset Grid % Computations," in Proceedings of the 9th International Conference on Numerical Grid Generation in % Computational Field Simulations, San Jose, California, June, 2005.
+% 
+% Chan, W. M., CAD Interface, Strand Grid Technology, and Other New Developments in Chimera Grid Tools 2.0, % Proceedings of the 8th Symposium on Overset Composite Grids and Solution Technology, Houston, Texas, % October, 2006.
+% 
+% Rogers, S. E., Suhs, N. E., Dietz, W. E., "PEGASUS 5: An Automated Preprocessor for Overset-Grid % Computational Fluid Dynamics," AIAA Journal, Vol. 41, No. 6, pp. 1037-1045, 2003.
+% 
+% Suhs, N. E., Dietz, W. E., Rogers, S. E., Nash, S. M. and Onufer, J. T., "PEGASUS User's Guide," Version 5.% 1c, NASA Ames Research Center, July, 2000.
+% 
+% Chan, W. M.," Enhancements to the Hybrid Mesh Approach to Surface Loads Integration on Overset Structured % Grids," AIAA Paper 2009-3990, June, 2009.
+% 
+% Chan, W. M. and Buning, P. G., "Zipper Grids for Force and Moment Computation on Overset Grids," AIAA Paper 95-1681, in Proceedings of the AIAA 12th Computational Fluid Dynamics Conference, 1995.
+
+%Chan, W. M.," The OVERGRID Interface for Computational Simulations on Overset Grids," AIAA Paper 2002-3188, 32nd AIAA Fluid Dynamics Conference, St. Louis, Missouri, June, 2002.
+
+% --- key ---
+%Chan, W. M., Gomez, R. J., Rogers, S. E. and Buning, P. G., "Best Practices in Overset Grid Generation," AIAA Paper 2002-3191, 32nd AIAA Fluid Dynamics Conference, St. Louis, Missouri, June, 2002.
+
+
+
+% ======================================================= Pegasus
+\subsection{Pegasus}
+
+PEGASUS 5 is a CFD pre-processing grid assembly code that generates the overset communication files required for OVERFLOW. The code prepares the overset volume grids for the flow solver by computing the domain connectivity database and blanking out grid points so that points contained inside a solid body are not visualized. PEGASUS 5 was designed to be an automatic process that requires a minimal OVERFLOW input file and the pre-assembled volume grids. The code is compiled using Message-Passing Interface (MPI), allowing it to run in parallel and decrease run time. 
+
+In order to assemble the grids and determine the overset communication, an enclosed surface is defined, allowing PEGASUS to perform automatic hole-cutting so that grids can be laid on top of one another and the connectivity to be defined. The code also automatically detects outer and internal boundary conditions and defines the appropriate connectivity. \cite{Rogers2016}
+
+% ======================================================= Grid Setup
+%\subsection{Grid Setup}
+
+
+
+% ======================================================= Grid Quality
+%\subsection{Grid Quality}
+

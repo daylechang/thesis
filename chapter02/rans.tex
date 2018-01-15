@@ -1,0 +1,215 @@
+\section{Turbulence Modeling}
+% ======================================================= Turbulence Modeling
+%\subsection{Turbulence Modeling}
+
+The Navier-Stokes equations as described thus far hold only for laminar flow. However, it is known from simple observation of fluid flow that small disturbances in laminar flow can cause the flow to transition to turbulence. The onset of this chaotic and random state of motion found in turbulent flows depends on the ratio of inertial to viscous forces, or Reynolds number. At low Reynolds numbers, viscous forces dominate, the naturally occurring disturbances dissipate away, and the flow remains laminar. At high Reynolds numbers, the inertial forces are sufficiently large to amplify the disturbances and transition from laminar to turbulent flow occurs.
+
+Fundamentally, turbulence is a continuum phenomenon since the smallest scales of turbulence are very large compared to the molecular scales. This implies the Navier-Stokes equations are of deterministic nature since it contains all of the physics of turbulent fluid motion \cite{BlazekText} but the direct simulation of turbulent flows presents a significant problem. Despite the performance of modern supercomputers, a direct numerical simulation of turbulence (DNS) by the time-dependent Navier-Stokes equations is applicable only to relatively simple flow problems at low Reynolds numbers in the order of $10^4 \minus 10^5$. The simulation must resolve a wide range of scales from the largest, energy bearing eddies to the smallest, vorticity containing eddies that accomplish the continuous dissipation of mechanical energy into internal energy. An accurate turbulent simulation must capture the entire range of active scales - a range that increases rapidly as Reynolds number increases. Widespread utilization of DNS is prevented by the fact that the number of grid points needed for sufficient spatial resolution scales as $Re^2$ and the CPU-time as $Re^3$. Therefore, the effects of turbulence must be accounted for in an approximate matter and a large variety of turbulence models were developed for this purpose.
+
+%The origins of turbulence modeling find their roots with fluid mechanics pioneers such as Prandtl, Taylor, von Karman, and Kolmogorov. Their work was characterized by simplicity combined with physical insight, where their models introduced the minimum amount of complexity while capturing the essence of the relevant physics. This philosophy is the basis for good turbulence models 
+The Reynolds-Averaged Navier-Stokes equations is outlined and two models of turbulence and a hybrid model are discussed in the following section. 
+
+% ======================================================= RANS
+\subsection{Reynolds-Averaged Navier-Stokes Equations}
+
+In the late 1800s, Reynolds modified the governing equations by decomposing the flow variables into a mean and fluctuating component to describe the flow field \cite{Reynolds1903}. For example, velocity $u$ is decomposed into a time-averaged component, $\bar{u}_i$, and a fluctuating component, $u_i^\prime$. Recall the momentum equation in three-dimensional, differential form from \cref{eq:dNS}:
+%
+$$ \rho \pdv{u_i}{t} + \rho u_j \pdv{u_i}{x_j} + \pdv{p}{x_i} - \pdv{\tau_{ij}}{x_j} = 0 $$
+
+where $\tau_{ij}$ is the stress tensor described in compact tensor notation, succinctly capturing \cref{eq:visc_shear_stresses,eq:visc_norm_stresses} as
+%
+$$ \tau_{ij} = \mu \qty(\pdv{u_i}{x_j} + \pdv{u_j}{x_i}) - \qty(\frac{2\mu}{3})\pdv{u_k}{x_k}\delta_{ij} $$
+%
+where $\delta_{ij}$ represents a $\medmuskip=0mu 3\times3$ identity matrix. After careful treatment of averaged correlated products, the Reynolds-averaged momentum equation is
+%
+%$$ \rho \pdv{\bar{u}_i}{t} + \rho \bar{u}_j \pdv{\bar{u}_i}{x_j} + \pdv{\bar{p}}{x_i} - \pdv{}{x_j}\Bigg[\mu\qty(\pdv{\bar{u}_i}{x_j} + \pdv{\bar{u}_j}{x_i}) - \rho \overline{u_i^'u_j^'}\Bigg] = 0 $$
+%
+\begin{equation} \rho \pdv{\bar{u}_i}{t} + \rho \bar{u}_j \pdv{\bar{u}_i}{x_j} + \pdv{\bar{p}}{x_i} - \pdv{}{x_j}\qty(\bar{\tau}_{ij} - \tau_{ij}^R) = 0 \label{eq:RANS} \end{equation}
+
+%\begin{equation}\label{RANS}
+%    \rho\frac{\partial \bar{u_i}}{\partial t} + \rho\bar{u_j}\frac{\partial \bar{u_i}}{\partial x_j} = \frac{\partial}{\partial x_j}\Bigg[ -\bar{p}\delta_{ij} + \mu\Bigg(\frac{\partial \bar{u_i}}{\partial x_j} + \frac{\partial \bar{u_j}}{\partial x_i}\Bigg) - \rho\overline{u_i^{'}u_j^{'}})\Bigg]
+%\end{equation}
+%
+The Reynolds-Averaged equation is formally identical to the Navier-Stokes equations with the exception of the additional stress term, $\tau_{ij}^R = \rho\overline{u_i^\prime u_j^\prime}$, which constitutes the Reynolds stress tensor and represents the transfer of momentum due to turbulent fluctuations. 
+%Boussinesq realized that it was mathematically convenient to treat turbulent transport with the same model as molecular transport.
+Boussinesq suggested that the apparent turbulent shearing stresses might be related to the rate of mean strain through an apparent scalar turbulent or \say{eddy} viscosity, \symbol[eddy viscosity]{$\mu_t$}. The Reynolds stress tensor is evaluated as
+%
+\begin{equation}\label{Boussinesq}
+    \tau^R_{ij} = 2\mu_t\bar{S}_{ij} - \frac{2}{3}\rho K\delta_{ij}
+\end{equation}
+%
+where turbulent kinetic energy is defined as
+%
+\begin{equation}\label{TKE}
+    K \equiv \frac{1}{2}\overline{u^\prime_k u^\prime_k}
+\end{equation}
+
+RANS turbulence models use the eddy viscosity or related parameters to close the momentum equation. Heat flux is solved similarly with a turbulent thermal conductivity, \symbol[turbulent thermal conductivity]{$k_t$}. The gradient transport hypothesis states that viscosity and thermal conductivity are simply the sums of the laminar and turbulent components.
+%
+\begin{eqnarray}
+% \nonumber to remove numbering (before each equation)
+  \mu = \mu_l + \mu_t  \\
+  k = k_l + k_t
+\end{eqnarray}
+\par
+
+
+\subsection{Spalart-Allmaras Turbulence Model (Negative)}
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+%\cite{Spalart1992} and modified SA \cite{Allmaras2012}
+%As of Overflow 2.2m on 13 October 2017, SA was upgraded to SA-neg. 
+The Spalart-Allmaras one-equation turbulence model was proposed in 1992 and enjoyed widespread use due to its speed and applicability across a wide variety of flows \cite{Spalart1992}. The model uses a single PDE to describe the transport of the turblent kinematic viscosity parameter, \symbol[turbulent kinematic viscosity parameter (S-A)]{$\tilde{\nu}$}, or also referred to as the Spalart Allmaras working variable, as it is added to the vector of conserved variables. The parameter is related to the kinematic eddy viscosity \symbol[kinematic eddy viscosity]{$\nu_t$} as follows:
+%
+\begin{equation}
+   \tilde{\nu} = \frac{\nu_t}{f_{v1}}
+\end{equation}
+%
+where $f_{v1}$ is a non-linear function of the ratio of $\tilde{\nu}$ to laminar kinematic viscosity, \symbol[laminar kinematic viscosity]{$\nu$}.
+%
+$$ f_{v1} = \frac{\chi^3}{\chi^3 + c_{v1}^3}, \quad \chi = \frac{\tilde{\nu}}{\nu} $$
+
+The transport equation is developed by empirical analysis of mean flow field relationships and dimensional assembly of plausible mathematical terms. The development starts with the left-hand side as a material derivative to describe the time rate of change of $\tilde{\nu}$ in a Lagrangian frame of reference. Expanding the material derivative, the convection of $\tilde{\nu}$ is described by
+%
+\begin{equation}
+   \frac{D\tilde{\nu}}{Dt} = \frac{\partial \tilde{\nu}}{\partial t} + u_i\frac{\partial \tilde{\nu}}{\partial x_i}
+\end{equation}
+
+The right-hand side includes terms that account for the production ($\mathpzc{P}$), destruction ($\mathpzc{D}$), and diffusion of $\tilde{\nu}$. Each term will be outlined in turn and includes modifications made in 2012 \cite{Allmaras2012} to address turbulence model behavior when $\tilde{\nu}$ becomes negative.
+
+The production of eddy viscosity is highly related to the rotation of the flow. This critical and historical observation has been exploited by many preceding turbulence models including the Baldwin-Lomax algebraic model \cite{Baldwin1978}. In a similar fashion, the originally proposed S-A model describes the turbulent viscosity parameter production as
+%
+\begin{align}
+\mathpzc{P} = \begin{cases}
+  c_{b1}\qty(1-f_{t2})\tilde S\tilde\nu & $for $ \tilde\nu \geq 0 \\
+  c_{b1}\qty(1-c_{t3})S\tilde\nu      & $for $ \tilde\nu < 0
+\end{cases}
+\end{align}
+
+where $\tilde{S}$ is the modified vorticity and is related to the magnitude of the mean rotation rate tensor, $c_{b1}$ is a closure coefficient that was calibrated with non-homogeneous free shear flows, and $f_{t2}$ is the trip term. The closure coefficients are tabulated in \cref{tab:closure_constants}. To avoid the case where $\tilde{S} \leq 0$, Spalart offered the following correction for the definition of $\tilde{S}$ \cite{Spalart2000}
+%
+\begin{align}
+\tilde{S} = \begin{cases}
+	\hfil S + \bar{S} & $for $\bar{S} \geq -c_{v_2}S \\
+    S + \dfrac{S\qty(c^2_{v_2}S+c_{v_3}\bar{S})}{\qty(c_{v_3}-2c_{v_2})S-\bar{S}} & $for $\bar{S} \leq -c_{v_2}S
+\end{cases}
+\end{align}
+%
+where $c_{v2}$ and $c_{v3}$ are empirically calibrated closure coefficients, $S$ is the vorticity magnitude, and $\bar{S}$ is the mean vorticity
+%Voritcity magnitude $s$:
+%
+$$ S = \sqrt{\qty(\pdv{w}{y}-\pdv{v}{z})^2 + \qty(\pdv{u}{z}-\pdv{w}{x})^2 + \qty(\pdv{v}{x}-\pdv{u}{y})^2} $$
+%
+$$ \bar{S} = \frac{\tilde{\nu}f_{v_2}}{\kappa^2d^2} $$
+%
+where $d$ is the distance to the closest wall and $f_{v2}$ is a coefficient defined as
+%
+$$ f_{v_2} = 1 - \frac{\chi}{1+\chi f_{v_1}} $$
+
+The destruction of $\tilde{\nu}$ near a wall is realized at a distance from the wall due to pressure. Dimensional analysis yields the functionality of a wall destruction source term to be related to the square of the ratio of $\tilde{\nu}$ to $d$:
+%
+\begin{align}
+\mathpzc{D} = \begin{cases}
+  \qty(c_{w1}f_w-\dfrac{c_{b1}}{\kappa^2}f_{t2})\qty(\dfrac{\tilde\nu}{d})^2 & $for $ \tilde\nu \geq 0 \\
+  \hfil -c_{w1}\qty(\dfrac{\tilde\nu}{d})^2      & $for $ \tilde\nu < 0
+\end{cases}
+\end{align}
+%
+where $f_w$ is the destruction term, a dimensionally derived function of $S$, $d$, and $\tilde{\nu}$ that attempts to satisfy the law of the wall within the log layer. It uses a mixing length of $l = \sqrt{\tilde{\nu}/\tilde{S}}$ and normalizes by $\kappa d$ according to the observations of von Karman. The function $f_w$ is defined with the following set of equations
+%
+%$$ f_w = g\Bigg[\dfrac{1+c^6_{w3}}{g^6 + c^6_{w3}}\Bigg]^{\frac{1}{6}} $$
+%$$ g = r + c_{w2}\qty(r^6 - r) $$
+%$$ r = \text{min}\qty(\dfrac{\tilde{\nu}}{\tilde{S}\kappa^2d^2},r_{\text{lim}}) $$
+%
+\begin{align} \begin{split}
+  f_w = g\Bigg[\dfrac{1+c^6_{w3}}{g^6 + c^6_{w3}}\Bigg]^{\frac{1}{6}} \\
+  g = r + c_{w2}\qty(r^6 - r) \\
+  r = \text{min}\qty(\dfrac{\tilde{\nu}}{\tilde{S}\kappa^2d^2},\,r_{\text{lim}})
+  %\label{hi}
+\end{split} \label{eq:SA_fwterms} \end{align}
+
+%\begin{eqnarray} \label{eq:SA_fwtermss}
+%%\nonumber to remove numbering (before each equation)
+% \nonumber f_w = g\Bigg[\dfrac{1+c^6_{w3}}{g^6 + c^6_{w3}}\Bigg]^{\frac{1}{6}} \\
+%  g = r + c_{w2}\qty(r^6 - r) \\
+% \nonumber r = \text{min}\qty(\dfrac{\tilde{\nu}}{\tilde{S}\kappa^2d^2},\,r_{\text{lim}})
+%\end{eqnarray}
+
+%\begin{eqnarray}\label{fwterms}
+%%\nonumber to remove numbering (before each equation)
+% \nonumber f_w &=& g\Bigg[\frac{1 + c^6_{w3}}{g^6 + c^6_{w3}}\Bigg]^{1/6} \\
+%  g &=& r + c_{w_2}(r^6 - r) \\
+%  \nonumber r &=& \text{min}\qty(\frac{\tilde{\nu}}{\tilde{S}\kappa^2d^2},r_{lim})
+% %\nonumber r &=& \frac{\tilde{\nu}}{\tilde{S}\kappa^2d^2}
+%\end{eqnarray}
+
+%where $r_{lim} = 10 $
+\noindent
+$f_{t2}$ is the laminar suppression term and is defined as
+%
+$$ f_{t_2} = c_{t_3}e^{\qty(-c_{t_4}\chi^2)} $$
+%
+%and the diffusion coefficient is $f_n = 1$.
+
+The diffusion term arises from the spatial gradients of $\tilde{\nu}$ that exist in the field. The creators of the model chose to use a standard, non-conservative diffusion operator that can be solved with the first spatial derivatives of $\tilde{\nu}$. 
+%The diffusion is tempered by the turbulent Prandtl number, turbulent Prandtl number $\sigma$. They also considered the effect of molecular viscosity on the diffusion of eddy viscosity by inserting it into the first term as follows
+%
+$$ \textrm{diffusion of }\tilde{\nu} = \dfrac{1}{\sigma}\qty[\pdv{}{x_j}\qty(\qty(\nu + f_n\tilde\nu)\pdv{}{x_j}\tilde\nu) + c_{b2}\qty(\pdv{}{x_j}\tilde\nu)^2] $$
+%
+where $f_n$ is the diffusion coefficient defined as
+%
+\begin{align}
+f_n = \begin{cases}
+  \hfil 1 & $for $ \tilde\nu \geq 0 \\
+  \dfrac{c_{n1}+\chi^3}{c_{n1}-\chi^3}      & $for $ \tilde\nu < 0
+\end{cases}
+\end{align}
+
+As a final note, the kinematic eddy viscosity $\nu_t$ is modified for negative cases:
+%
+\begin{align}
+\nu_t = \begin{cases}
+  \tilde\nu f_{v1} & $for $ \tilde\nu \geq 0 \\
+  \hfil 0     & $for $ \tilde\nu < 0
+\end{cases}
+\end{align}
+
+These adjustments maintain the original S-A model for $\tilde\nu \geq 0$ and use the negative model defined for $\tilde\nu < 0$. Combining all major components of eddy viscosity parameter transport, the complete S-A turbulence model in dimensional, differential form is
+%
+$$ \pdv{\tilde\nu}{t} + u_j \pdv{\tilde\nu}{x_j} = \mathpzc{P} - \mathpzc{D} + \dfrac{1}{\sigma}\qty[\pdv{}{x_j}\qty(\qty(\nu + f_n\tilde\nu)\pdv{}{x_j}\tilde\nu) + c_{b2}\qty(\pdv{}{x_j}\tilde\nu)^2] $$
+
+%\begin{equation}\label{Diffusion}
+%   \frac{\partial \tilde{\nu}}{\partial t} + u_j\frac{\partial \tilde{\nu}}{\partial x_j} = c_{b1}\tilde{S}\tilde{\nu} + \frac{1}{\sigma} \Bigg[ \frac{\partial}{\partial x_j}\Bigg( (\tilde{\nu} + \nu_l)\frac{\partial \tilde{\nu}}{\partial x_j}\Bigg) + c_{b2}\Bigg(\frac{\partial \tilde{\nu}}{\partial x_j}\Bigg) \Bigg] - c_{w1}f_w\Bigg(\frac{\tilde{\nu}}{d}\Bigg)^2
+%\end{equation}
+
+The model is complete with the following set of closure coefficients shown in \cref{tab:closure_constants} that were calibrated with a set of empirical cases:
+
+\begin{table}[!htbp] \centering 
+\begin{tabular}{|c|c|c|c|} \hline
+ \bf{Constant} & \bf{Value} & \bf{Constant} & \bf{Value} \\ \hline
+ $\sigma$ & $2/3$                                   & $\kappa$ & 0.41 \\ \hline
+ $c_{b1}$ & 0.1355                                  & $c_{b2}$ & 0.622 \\ \hline
+ $c_{w1}$ & $c_{b1}/\kappa^2+\qty(1+c_{b2})/\sigma$ & $c_{w2}$ & 0.3 \\ \hline
+ $c_{w3}$ & 2                                       & $c_{v1}$ & 7.1 \\ \hline
+ $c_{v2}$ & 0.7                                     & $c_{v3}$ & 0.9 \\ \hline
+ $c_{t3}$ & 1.2                                     & $c_{t4}$ & 0.5 \\ \hline
+ $r_{\text{lim}}$ & 10 & - & - \\ \hline
+\end{tabular} \caption{Closure Constants for the Negative SA Turbulence Model}
+\label{tab:closure_constants}
+\end{table}
+
+% \begin{eqnarray}
+%  \nonumber \sigma &=& 2/3  \\
+%  \nonumber \kappa &=& 0.41 \\
+%  \nonumber c_{b1} &=& 0.1355   \\
+%  \nonumber c_{b2} &=& 0.622 \\
+%  c_{w1} &=& \frac{c_{b1}}{\kappa^2} + \frac{1+c_{b2}}{\sigma} \\
+%  \nonumber c_{w2} &=& 0.3 \\
+%  \nonumber c_{w3} &=& 2 \\
+%  \nonumber c_{v1} &=& 7.1 \\
+%  \nonumber c_{v2} &=& 5 \\
+%  \nonumber c_{n1} &=& 16
+% \end{eqnarray}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+

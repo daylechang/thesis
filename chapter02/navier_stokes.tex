@@ -1,0 +1,329 @@
+
+%derivations of the navier-stokes equation
+\section{Derivation of the Navier-Stokes Equations}
+
+The Navier-Stokes equations describe the motion of viscous fluids and are useful because they describe the physics of scientific and engineering interests. They are used to model the weather, ocean currents, water flow in a pipe, and air flow around a wing. Before deriving the Navier-Stokes equations, assumptions about the flow are made and physical principles are discussed to arrive at the governing equations of fluid dynamics in the following sections.
+
+The first assumption is that the density of the fluid is assumed to be high enough such that the flow is approximated as a continuum. This implies that an infinitesimally small, or differential, element of the fluid still contains a sufficient number of particles for which the mean velocity and mean kinetic energy can be specified. This assumption enables important quantities such as velocity, pressure, temperature, and density to be defined at each point in the fluid. In mathematical terms, the continuum assumption states the mean free path of molecules $\lambda$ is proportionally much smaller than the characteristic length of interest $L$ as shown below
+%
+$$ k_n = \frac{\lambda}{L} \ll 1 $$
+%
+where $k_n$ is the Knudsen number. The derivation of the Navier-Stokes equations is based on the fact that the dynamic behavior of the fluid is determined by the following conservation laws:
+%
+\begin{itemize}
+\item Conservation of Mass
+\item Conservation of Momentum
+\item Conservation of Energy
+\end{itemize}
+
+The conservation of these flow quantities means that its total variation inside an arbitrary volume can be expressed as the net effect of the flux, or the rate a flow quantity crosses a boundary surface, any internal forces and sources, and external forces acting on the volume. The flux is decomposed into two parts: one due to convective transport and the other due to molecular motion present in the fluid at rest, or diffusion \cite{BlazekText}. In the following discussion, the finite control volume is defined and a mathematical description of its physical properties for fluid flow is detailed.
+
+% ======================================================= Control Volume
+\subsection{Conservation Law within a Control Volume}
+
+A control volume $\Omega$ is defined as an arbitrary and finite region of fluid flow fixed in space and bounded by the closed surface $d\Omega$. The surface element $dS$ represents a small and finite portion of the surface $d\Omega$ and $\vec{n}$ is the associated outward pointing unit normal vector. The net change of a fluid property within the control volume is determined by performing a balance between the net flow in and out of the control volume, such as the force or total energy exchange. This is expressed in a mathematical sense: the change of a given property in time is described as the sum of convective fluxes, diffusive fluxes, volume sources, and surface sources in and through a control volume. This conservation law is shown for the general property $U$ in integral form as shown below:
+%
+$$ \pdv{t}\int\limits_{\Omega}{U \dO} = \oint\limits_{\pO}{\qty[\kappa\rho\qty(\gradient U^* \cdot \vec{n}) - U\qty(\vec{v}\cdot\vec{n})]\dS} + \int\limits_\Omega{S_v\dO} + \oint\limits_\pO{\qty(\vec{S}_s\cdot \vec{n})\dS} $$
+
+If $U$ is not a scalar but instead a vector $\vec{U}$, the conservation law still holds and is further generalized in vector form as
+%
+\begin{equation} \pdv{t}\int\limits_\Omega{\vec{U} \dO} = \oint\limits_{\pO}{\qty[\qty(\tensor{F}_d - \tensor{F}_c)\cdot\vec{n}]\dS} + \int\limits_\Omega{\vec{S}_v\dO} + \oint\limits_\dO{\qty(\tensor{S}_s\cdot\vec{n})\dS} \label{eq:conservation} \end{equation}
+
+\noindent
+where $\tensor{F}_d$ is the diffusive flux tensor, $\tensor{F}_c$ is the convective flux tensor, $\vec{S}_v$ is the volume source vector, and $\tensor{S}_s$ is the surface source tensor. This formulation of conservation is the basis of the derivation for the conservation laws of mass, momentum, and energy in the continuing discussion.
+
+% ======================================================= Conservation of Mass
+\subsection{Conservation of Mass}
+
+The law of conservation of mass states that mass can neither be created nor destroyed. Therefore, the time rate of change of mass within a given control volume is dependent only on the net mass coming in and out of the control volume due to convection. Simply put, convection is the only mechanism by which mass can change within a control volume. The diffusive flux, surface source, and volume source terms all go to zero as a result. This concept is expressed mathematically below:
+%
+\begin{equation} \pdv{t} \int\limits_{\Omega}{\rho \, d\Omega} + \oint\limits_{\partial \Omega}{\rho\qty(\vec{v}\cdot\vec{n})\,dS} = 0 \label{eq:mass} \end{equation}
+
+\noindent
+This yields the conservative, integral form of the continuity equation.
+
+% ======================================================= Conservation of Momentum
+\subsection{Conservation of Momentum}
+
+The law of conservation of momentum states that the time rate of change of momentum is equal to the net force acting on a control volume. The momentum of an infinitesimally small portion of the control volume $\Omega$ is $\rho \vec{v}\dO$, where $\vec{v} = \qty[u,v,w]^T$ in a three component Cartesian coordinate system. The variation in time of momentum within the control volume is described as
+%
+$$ \pdv{t}\int_\Omega{\rho\vec{v}\dO} $$
+
+The convective flux term is the transfer of momentum across the boundary of the control volume
+%
+$$ -\oint\limits_\pO{\rho\vec{v}\qty(\vec{v}\cdot\vec{n})\dS} $$
+
+The diffusive flux term is zero since there is no diffusion of momentum for a fluid at rest.
+The volume sources for momentum conservation are called body forces and described as forces which act directly on the mass of the volume such as gravitational, buoyancy, Coriolis, centrifugal, or electromagnetic forces. They are ignored in this derivation by setting the sources equal to zero.
+
+The surface sources for momentum conservation act directly on the surface of the control volume and consist of two components: the pressure distribution imposed by the fluid surrounding the volume, $-p\tensor{I}$, and the shear and normal stresses resulting from the friction between the fluid and the surface of the volume, $\tensor{\tau}$, as shown below
+%
+$$ \tensor{S}_s = -p\tensor{I} + \tensor{\tau} $$
+
+\noindent
+where $\tensor{I}$ is the unit tensor and $\tensor{\tau}$ is the viscous stress tensor. Each of the terms are summed up in the following mathematical expression: 
+%
+\begin{equation} \pdv{t}\int\limits_\Omega{\rho\vec{v} \dO} + \oint\limits_\pO{\rho\vec{v}\qty(\vec{v}\cdot\vec{n})\dS} + \oint\limits_\pO{p\vec{n}\dS} - \oint\limits_\pO{\qty(\tensor{\tau}\cdot\vec{n})\dS} = 0 \label{eq:momentum} \end{equation}
+
+\noindent
+This yields the conservative, integral form of the momentum equation.
+
+% ======================================================= Conservation of Energy
+\subsection{Conservation of Energy}
+
+The law of conservation of energy states that the internal energy of the control volume is equal to the rate of work performed on the volume and the net heat supplied to the volume. The conserved quantity is the total energy per unit volume $\rho E$ and its variation in time within the volume $\Omega$ is expressed as
+%
+$$ \pdv{t}\int\limits_\Omega{\rho E \dO} $$
+
+Just like the previous mass and momentum equations, the convective flux term is specified as 
+%
+$$ - \oint\limits_\pO{\rho E \qty(\vec{v}\cdot\vec{n})\dS} $$
+
+In contrast to the previous mass and momentum equations, the diffusive flux term is present in the energy equation and describes the diffusion of heat due to molecular thermal conduction. The diffusive flux term $\vec{F}_d$ is written in the form of Fourier's law of heat conduction, which characterizes heat diffusion as the heat transfer due to temperature gradients
+%
+$$ \vec{F}_d = -k\grad T $$
+
+\noindent
+where $k$ is the thermal conductivity coefficient and $T$ is the absolute static temperature.
+
+The volume source for the energy equation is the volumetric heating due to the absorption or emission of radiation, or due to chemical reactions as well as work done by the body forces. These volume sources are ignored and not considered for this derivation.
+
+The surface source term is the time rate of work done by pressure and the shear and normal stresses on the fluid element
+%
+$$ \vec{S}_s = - p\vec{v} + \tensor{\tau}\cdot\vec{v} $$
+
+\noindent
+where $\tensor{\tau}$  is the stress tensor
+%
+\begin{equation}
+  \tensor{\tau} =
+  \begin{bmatrix}
+    \tau_{xx} & \tau_{xy} & \tau_{xz} \\
+    \tau_{yx} & \tau_{yy} & \tau_{yz} \\
+    \tau_{zx} & \tau_{zy} & \tau_{zz}
+  \end{bmatrix} \label{eq:stress_tensor}
+\end{equation} 
+
+The off-diagonal elements of $\tensor{\tau}$ represent the viscous shear stresses and defined as
+%
+\begin{align} \begin{split}
+  \tau_{xy} &= \tau_{yx} = \mu\qty(\pdv{u}{y} + \pdv{v}{x}) \\
+  \tau_{xz} &= \tau_{zx} = \mu\qty(\pdv{u}{z} + \pdv{w}{x}) \\
+  \tau_{yz} &= \tau_{zy} = \mu\qty(\pdv{v}{z} + \pdv{w}{y})
+  %\label{hi}
+\end{split} \label{eq:visc_shear_stresses} \end{align}
+
+The diagonal elements represent the viscous normal stresses and defined as
+%
+\begin{align} \begin{split}
+  \tau_{xx} &= \lambda\qty(\pdv{u}{x}+\pdv{v}{y}+\pdv{w}{z}) + 2\mu\pdv{u}{x} \\
+  \tau_{yy} &= \lambda\qty(\pdv{u}{x}+\pdv{v}{y}+\pdv{w}{z}) + 2\mu\pdv{v}{y} \\
+  \tau_{zz} &= \lambda\qty(\pdv{u}{x}+\pdv{v}{y}+\pdv{w}{z}) + 2\mu\pdv{w}{z} 
+\end{split} \label{eq:expanded_visc_norm}\end{align}
+
+\noindent
+where $\lambda$ represents the second viscosity and $\mu$ represents the dynamic viscosity. Stoke's hypothesis eliminates $\lambda$ by relating the second viscosity and the dynamic viscosity as a bulk viscosity, which represents the property that is responsible for energy dissipation in a fluid of uniform temperature during a change in volume at a finite rate as shown.
+%
+\begin{equation} \lambda + \frac{2}{3}\mu = 0 \label{eq:stokes} \end{equation}
+
+\noindent
+The diagonal elements are then simplified using Stoke's hypothesis (\cref{eq:stokes}) for the viscous normal stresses (\cref{eq:expanded_visc_norm}) as shown below
+%
+\begin{align} \begin{split}
+  \tau_{xx} &= 2\mu\Bigg[\pdv{u}{x} - \frac{1}{3}\qty(\pdv{u}{x}+\pdv{v}{y}+\pdv{w}{z})\Bigg] \\
+  \tau_{yy} &= 2\mu\Bigg[\pdv{u}{x} - \frac{1}{3}\qty(\pdv{u}{x}+\pdv{v}{y}+\pdv{w}{z})\Bigg] \\
+  \tau_{zz} &= 2\mu\Bigg[\pdv{u}{x} - \frac{1}{3}\qty(\pdv{u}{x}+\pdv{v}{y}+\pdv{w}{z})\Bigg]
+  %
+\end{split} \label{eq:visc_norm_stresses} \end{align}
+%\end{align}
+
+%\begin{align} \begin{split}
+%  \tau_{xy} &= \tau_{yx} = \mu\qty(\pdv{u}{y} + \pdv{v}{x}) \\
+%  \tau_{xz} &= \tau_{zx} = \mu\qty(\pdv{u}{z} + \pdv{w}{x}) \\
+%  \tau_{yz} &= \tau_{zy} = \mu\qty(\pdv{v}{z} + \pdv{w}{y})
+%  %\label{hi}
+%\end{split} \label{eq:visc_norm_stresses} \end{align}
+
+
+\noindent
+The terms are summed in the following mathematical expression:
+%
+\begin{equation} \begin{split} \pdv{t}\int\limits_\Omega{\rho E \dO} + \oint\limits_\pO{\rho E\qty(\vec{v}\cdot\vec{n})\dS} &= \oint\limits_\pO{k\qty(\grad T\cdot\vec{n})\dS} - \oint\limits_\pO{p\qty(\vec{v}\cdot\vec{n})\dS} \\ & \quad + \oint\limits_\pO{\qty(\tensor{\tau}\cdot\vec{v})\cdot\vec{n}\dS} \end{split} \label{eq:energy} \end{equation}
+%
+This yields the conservative, integral form of the energy equation.
+
+% ======================================================= Closing the Equations
+\subsection{Closing the Equations}
+
+The mass, momentum, and energy equations are collectively referred to as the Navier-Stokes equations, representing a system of five equations in three dimensions for the five conserved variables $\rho$, $\rho u$, $\rho v$, $\rho w$, and $\rho E$. However, the governing equations contain nine unknown flow field variables: \symbol[density]{$\rho$}, \symbol[x-component of velocity]{$u$}, \symbol[y-component of velocity]{$v$}, \symbol[z-component of velocity]{$w$}, \symbol[internal energy (double-check)]{$E$}, \symbol[pressure]{$p$}, \symbol[temperature]{$T$}, $\mu$, and $k$. Therefore, four additional equations are needed to close the equations, which is accomplished by formulating thermodynamic relations between the two unknown state variables for pressure, $p$, and temperature, $T$. For an ideal perfect gas, the equation of state assumes the form
+%
+\begin{equation} p = \rho R T \label{eqn:eqn_of_state} \end{equation}
+
+\noindent
+where $R$ denotes the specific molecular gas constant. This equation can be written as a function of the conserved variables by using the definition of enthalpy
+%
+\begin{equation} H = h + \frac{\qty|\vec{v}|^2}{2} = E + \frac{p}{\rho} \label{eqn:enthalpy} \end{equation}
+
+\noindent
+which relates the total enthalpy to the total energy. Using the definitions
+%
+$$ R = c_p - c_v, \qquad \gamma = \frac{c_p}{c_v}, \qquad h = c_p T $$
+%
+the enthalpy equation (\cref{eqn:enthalpy}) is substituted into the equation of state (\cref{eqn:eqn_of_state}) to obtain for the pressure as a function of the conserved variables
+%
+$$ p = \qty(\gamma - 1) \rho \qty[E - \frac{u^2+v^2+w^2}{2}] $$
+
+Calculating temperature becomes trivial with the aid of \cref{eqn:eqn_of_state}. Dynamic viscosity $\mu$ is strongly dependent on temperature but only weakly dependent on pressure. Sutherland's formula describes this relationship for air (in SI units)
+%
+$$ \mu = \frac{1.45 T^{\frac{3}{2}}}{T+110} \cdot 10^{\minus 6} $$
+
+\noindent
+where the temperature, $T$, is in degrees Kelvin ($K$). %Thus, at $T = 288 $K one obtains $\mu = 1.73 \cdot 10^{\minus 5} $ kg/ms. 
+The Prandtl number ($Pr$) is a dimensionless number defined as the ratio of momentum diffusivity to thermal diffusivity
+%
+$$ Pr = \dfrac{c_p \mu}{k} $$
+
+The Prandtl number is assumed constant in the flow for air with a value of $P_r = 0.72$. Therefore, the thermal conductivity $k$ is determined from temperature. \cite{BertinText,TannehillText,BlazekText,TuText,WhiteText}.
+
+
+% ======================================================= Finite Volume
+\subsection{Integral Form of the Navier-Stokes Equations}
+
+For the complete system of the Navier-Stokes equations, \cref{eq:mass,eq:momentum,eq:energy} are combined using the general conservation law (\cref{eq:conservation}) into the following vectorized form:
+%
+\begin{equation} \pdv{t} \int\limits_\Omega \vec{Q} \dO + \oint\limits_{\dO}(\vec{F_c}-\vec{F_v}) \dS = 0 \label{eq:iNS} \end{equation}
+
+\noindent
+where $\vec{Q}$ is the vector of conserved variables in three dimensions, $\vec{F}_c$ represents the convective fluxes, and $\vec{F}_d$ represents the diffusive fluxes. Note that \cref{eq:iNS} does not include any source terms. These three vectors for the five total equations are defined as follows
+%
+\begin{equation}
+\vec{Q} = \begin{bmatrix} \rho \\
+  \rho u \\
+  \rho v \\
+  \rho w \\
+  \rho E \end{bmatrix} \label{eq:iQ}
+\end{equation}
+%
+\begin{equation}
+\vec{F}_c = \begin{bmatrix} \rho V \\
+  \rho uV + n_x p \\
+  \rho vV + n_y p \\
+  \rho wV + n_z p \\
+  \rho HV \end{bmatrix} \label{eq:iFc}
+\end{equation}
+%
+\begin{equation}
+\vec{F}_v = \begin{bmatrix} 0 \\
+  n_x\tau_{xx} + n_y\tau_{xy} + n_z\tau_{xz} \\
+  n_x\tau_{yx} + n_y\tau_{yy} + n_z\tau_{yz} \\
+  n_x\tau_{zx} + n_y\tau_{zy} + n_z\tau_{zz} \\
+  n_x\Theta_x + n_y\Theta_y + n_z\Theta_z \end{bmatrix} \label{eq:iFv}
+\end{equation}
+
+% \noindent
+% \begin{align} 
+% \vec{Q} &= \begin{bmatrix} \rho \\
+%   \rho u \\
+%   \rho v \\
+%   \rho w \\
+%   \rho E \end{bmatrix} \label{eq:q} \\
+% %\vec{S} &= \begin{bmatrix} 0 \\
+% %  \rho f_{e,x} \\
+% %  \rho f_{e,y} \\
+% %  \rho f_{e,z} \\
+% %  \rho \vec{f}_e \cdot \vec{v} + \dot{q}_h \end{bmatrix} \label{eq:s} \\
+% \vec{F}_c &= \begin{bmatrix} \rho V \\
+%   \rho uV + n_x p \\
+%   \rho vV + n_y p \\
+%   \rho wV + n_z p \\
+%   \rho HV \end{bmatrix} \label{eq:fc} \\
+% \vec{F}_v &= \begin{bmatrix} 0 \\
+%   n_x\tau_{xx} + n_y\tau_{xy} + n_z\tau_{xz} \\
+%   n_x\tau_{yx} + n_y\tau_{yy} + n_z\tau_{yz} \\
+%   n_x\tau_{zx} + n_y\tau_{zy} + n_z\tau_{zz} \\
+%   n_x\Theta_x + n_y\Theta_y + n_z\Theta_z \end{bmatrix} \label{eq:fv}
+% \end{align}
+
+\noindent
+where $V$ is the contravariant velocity 
+%
+\begin{equation} V \equiv \vec{v} \cdot \vec{n} = n_x u + n_y v + n_z w \label{eq:contravariant_vel} \end{equation}
+
+\noindent
+and where 
+%
+\begin{align} \begin{split}
+  \Theta_x = u\tau_{xx} + v\tau_{xy} + w\tau_{xz} + k\pdv{T}{x} \\
+  \Theta_y = u\tau_{yx} + v\tau_{yy} + w\tau_{yz} + k\pdv{T}{y} \\
+  \Theta_z = u\tau_{zx} + v\tau_{zy} + w\tau_{zz} + k\pdv{T}{z} 
+\end{split} \label{eq:theta} \end{align}
+
+\cref{eq:iNS,eq:iQ,eq:iFc,eq:iFv,eq:contravariant_vel,eq:theta} ultimately describe the exchange of mass, momentum, and energy through the boundary $\dO$ of a fixed control volume $\Omega$ in what is known as the integral form of the Navier-Stokes equations.
+
+% ======================================================= Differential Form
+\subsection{Differential Form of the Navier-Stokes Equations}
+
+Though not always the case, the integral form of the Navier-Stokes equations is better understood in the context of the finite volume method. However, the code used in this research (OVERFLOW) uses the finite-difference method and so the differential form of the Navier-Stokes equations is presented for completeness.
+
+Recall the integral form of the Navier-Stokes equations were presented in the discussion from the starting assumption that the control volume was fixed in space, an Eulerian frame of reference. An alternative approach examines the differential element moving with the fluid flow, a Lagrangian frame of reference, rather than a control volume fixed in space. The two frames of reference are related through the Reynolds transport theorem which relates the rate of change of a system property within a fixed region (control volume) to the time derivative of a system property (differential element). Applying the theorem to the integral form of the governing equations (\cref{eq:iNS}) leads to the differential form as shown below
+%
+$$ \pdv{}{t}\int\limits_\Omega{\vec{Q}\dO} + \int\limits_\Omega{\gradient \cdot\qty(\vec{F}_c - \vec{F}_v)\dO} = 0 $$
+
+The integral drops out for an arbitrary control volume $\Omega$ and the equation is written in the differential form as 
+%
+$$ \pdv{\vec{Q}}{t} + \gradient\cdot \qty(\tensor{F}_c - \tensor{F}_v) = 0 $$
+
+It is typical to combine the convective and viscous fluxes and expand the gradient operator $\gradient$ to arrive at the generalized form
+%
+\begin{equation} 
+\pdv{\vec{Q}}{t} + \pdv{\vec{E}}{x} + \pdv{\vec{F}}{y} + \pdv{\vec{G}}{z} = 0 
+\label{eq:dNS}
+\end{equation}
+%
+%where $\vec{E}$ represents the fluxes in the $x$-direction, $\vec{F}$ represents the flux
+%
+where $\vec{E}$, $\vec{F}$, and $\vec{G}$ represent the fluxes in the $x$-, $y$-, and $z$-directions, respectively, as shown below
+
+\begin{equation}
+\vec{Q} = \begin{bmatrix} \rho \\
+  \rho u \\
+  \rho v \\
+  \rho w \\
+  \rho E \end{bmatrix} \label{eq:dQ}
+\end{equation}
+%
+\begin{equation}
+\vec{E} = \begin{bmatrix} \rho u \\
+  \rho u^2 + p - \tau_{xx} \\
+  \rho uv - \tau_{xy} \\
+  \rho uw - \tau_{xz} \\
+  (\rho E + p)u - \Theta_x \end{bmatrix} \label{eq:dE}
+\end{equation}
+%
+\begin{equation}
+\vec{F} = \begin{bmatrix} \rho v \\
+  \rho uv - \tau_{xy} \\
+  \rho v^2 + p - \tau_{yy} \\
+  \rho vw - \tau_{yz} \\
+  (\rho E + p)v - \Theta_y \end{bmatrix} \label{eq:dF}
+\end{equation}
+%
+\begin{equation}
+\vec{G} = \begin{bmatrix} \rho w \\
+  \rho uw - \tau_{xz} \\
+  \rho vw - \tau_{yz} \\
+  \rho w^2 + p - \tau_{zz} \\
+  (\rho E + p)w - \Theta_z \end{bmatrix} \label{eq:dG}
+\end{equation}
+%
+\cref{eq:theta,eq:dNS,eq:dQ,eq:dE,eq:dF,eq:dG} describe the change in mass, momentum, and energy at an infinitesimally small element of the flow in what is known as the differential form of the Navier-Stokes equations. 
+
+%so something something something \cite{Orkwis2013, Syberg1973, Paynter1993} %
+
+
+
+
+
+
+
+
