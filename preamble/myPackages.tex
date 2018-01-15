@@ -1,17 +1,9 @@
-%\usepackage{fancyvrb}
 \usepackage{physics} 
 	% \pdv, \qty
-
 \usepackage{breqn}
 	% \begin{dmath} \end{dmath} - produces less vertical space
 \usepackage{soul} 
 	% \hl{highlighted text}
-
-
-%\usepackage{float}
-%\usepackage{subcaption}
-%\captionsetup{compatibility=false}
-%\usepackage[justification=centering]{caption}
 
 \ifdraft
   \usepackage{graphicx}
@@ -22,11 +14,9 @@
 	% makes references [1-3] instead of [1,2,3]
 \fi
 
-
-\usepackage{dirtytalk} % quotations with \say{}
-	
+%\usepackage{dirtytalk} % quotations with \say{}
+\usepackage{csquotes} % quotations with \enquote{}
 \usepackage{showkeys} % show labels and citations
-
 \usepackage{amsmath} 
 	% \begin{multiline} \\ \end{multiline}
 	% \begin{cases}
@@ -34,16 +24,19 @@
 \usepackage[hidelinks]{hyperref}
 %\usepackage [autostyle, english = american]{csquotes}
 %\MakeOuterQuote{"}
+
 \usepackage[noabbrev, capitalize, nameinlink]{cleveref}
 %	- spell out equations, capitalize the first letter,
 % 		and make the numbers themselves hyperlinks
 
-\usepackage{float} % Places the figure float at precisely the location in the LaTeX code
+\usepackage{float} 
+	% Places the figure float at precisely the location in the LaTeX code
 
 %\usepackage{subfigure}
 % for plots
 \usepackage{subcaption}
-%
+%\captionsetup{compatibility=false}
+
 \usepackage[justification=centering]{caption}
 
 \graphicspath{{figures/}}
