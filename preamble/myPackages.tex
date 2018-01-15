@@ -1,8 +1,7 @@
 %\usepackage{fancyvrb}
 \usepackage{physics} 
 	% \pdv, \qty
-\usepackage{cite}
-	% makes references [1-3] instead of [1,2,3]
+
 \usepackage{breqn}
 	% \begin{dmath} \end{dmath} - produces less vertical space
 \usepackage{soul} 
@@ -14,8 +13,16 @@
 %\captionsetup{compatibility=false}
 %\usepackage[justification=centering]{caption}
 
-\usepackage{afitStyleFiles/afitThesis}
-\usepackage{afitStyleFiles/sf298}
+\ifdraft
+  \usepackage{graphicx}
+\else
+  \usepackage{afitStyleFiles/afitThesis}
+  \usepackage{afitStyleFiles/sf298}
+  \usepackage{cite}
+	% makes references [1-3] instead of [1,2,3]
+\fi
+
+
 \usepackage{dirtytalk} % quotations with \say{}
 	
 \usepackage{showkeys} % show labels and citations
@@ -36,9 +43,7 @@
 %\usepackage{subfigure}
 % for plots
 \usepackage{subcaption}
-%\usepackage{graphicx}
+%
 \usepackage[justification=centering]{caption}
-
-
 
 \graphicspath{{figures/}}

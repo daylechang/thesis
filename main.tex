@@ -1,39 +1,32 @@
-\documentclass{article}
+\newif\ifdraft
+\drafttrue
+% draft mode is true: \isdrafttrue
+%   - uses \documentclass{article} instead of afitThesis.sty
+% draft mode is false: \isdraftfalse
+%   - uses afitThesis.sty
 
-\usepackage[letterpaper, margin=.8in]{geometry}
-%\usepackage{graphicx}
-\usepackage[doi=false,isbn=false,url=false]{biblatex}
-\addbibresource{references.bib}
+\ifdraft
+  \documentclass{article}
+  \usepackage[letterpaper, margin=.8in]{geometry}
+  \usepackage[doi=false,isbn=false,url=false]{biblatex}
+  \addbibresource{references.bib}
+\else
+  
+\fi
 
-%\input{preamble/myPackages}
-%\input{preamble/commonSymbols}
 
+\input{preamble/myPackages}
+\input{preamble/commonSymbols}
 
-%\graphicspath{{figures/}}
 
 \begin{document}
 
-%\title{DRAFT}
-%\tableofcontents
+Bleed configurations are often characterized by the sonic flow coefficient ($Q_\trm{sonic}$), which is defined as
+
 %\input{chapter04/plenum}
 
-
-
-hi Today
-
-\newif\ifismonday
-
-\ismondayfalse
-
-\ifismonday
-  sucks!
-\else
-  is \textbf{great}
+\ifdraft
+  \printbibliography
 \fi
-% -----------------------------------------------------------
-
-
-%\subsection{characterization}
-%\printbibliography
 
 \end{document}
