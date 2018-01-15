@@ -11,7 +11,7 @@
   \usepackage[doi=false,isbn=false,url=false]{biblatex}
   \addbibresource{references.bib}
 \else
-  
+  \documentclass[12pt,letterpaper,oneside]{book}
 \fi
 
 \input{preamble/myPackages}
@@ -19,12 +19,27 @@
 
 \begin{document}
 
-Bleed configurations are often characterized by the sonic flow coefficient ($Q_{\trm{sonic}}$), which is defined as \cite{Slater2012}
-
-%\input{chapter04/plenum}
-%\printbibliography
 \ifdraft
-  \printbibliography
+\else
+\frontmatter
+\fi
+
+	\tableofcontents
+
+\ifdraft
+\else
+\mainmatter
+\fi
+
+
+	\input{chapter04/plenum}
+
+
+
+\ifdraft
+ 	\printbibliography
+\else
+	\backmatter
 \fi
 
 \end{document}
