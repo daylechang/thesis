@@ -8,30 +8,33 @@ A large library of flow coefficient data was developed beginning with McLafferty
 
 These experimental works paved the way for the normalization of bleed data by using a sonic flow coefficient.
 
+
 % -----------------------------------------------------------
 \section{Sonic Flow Coefficient}
 
 Bleed configurations are often characterized by the sonic flow coefficient ($Q_{\trm{sonic}}$), which is defined as
 
-$$ \Qs = \frac{\mdot_\trm{bleed}}{\mdot_{\trm{sonic}} $$
+$$ Q_{\trm{sonic}} = \frac{\mdot_{\trm{bleed}}}{\mdot_{\trm{sonic}}} $$
 
-where $\mdot_{\trm{bleed}}$ is the mass flow rate through the bleed hole and $\mdot_\trm{sonic}$ is the 
+%$$ \Qs = \frac{\mdot_{\trm{bleed}}}{\mdot_{trm{sonic}} $$
 
-a reference flow calculated by assuming isetnropic conditions through the bleed holes with sonic flow $(M=1)$ or within the bleed hole. $Q_\trm{sonic}$ thus represents the ability of the bleed hole to extract bleed flow.
+where $\mdot_{\trm{bleed}}$ is the mass flow rate through the bleed hole and $\mdot_{\trm{sonic}}$ is the 
+
+a reference flow calculated by assuming isentropic conditions through the bleed holes with sonic flow $(M=1)$ or within the bleed hole. $Q_{\trm{sonic}}$ thus represents the ability of the bleed hole to extract bleed flow.
 and $w_i^*$ is the ideal mass-flow rate under chocked conditions:
 
 The $\mdot$ is the flow rate given in the general form of
 
-%$$ \mdot = \rho A v = p_t A M \qty(\frac{\gamma}{RT_t}^sfrac{1}{2} \qty(1 + \frac{\gamma-1}{2}M^2))^\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)} $$
 
 $$ \mdot = \rho A v = p_t A M \cdot \qty(\frac{\gamma}{RT_t})^{\sfrac{1}{2}} \cdot \qty(1 + \frac{\gamma-1}{2}M^2)^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
 
-$$ \mdot_\trm{sonic} = p_t \Phi A_\trm{region} \qty(\frac{\gamma+1}{2}M^2)^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
+$$ \mdot_{\trm{sonic}} = p_t \Phi A_{\trm{region}} \qty(\frac{\gamma+1}{2}M^2)^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
 
 $$ w_i^* = \frac{P_{t,e}\cdot A_b }{\sqrt{T_{t,e}}} \cdot \sqrt{\frac{\gamma\cdot g_c}{R_{air}}} \cdot \qty(\frac{\gamma+1}{2})^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
 
-The bleed boundary condition requires $\Qs$ to be evaluated. The values of $\Qs$ varied for various Mach numbers with respect to the ration between th eplenum static pressure and the total pressure of the inlet flow at the edge of the approaching boundary layer, $p_\trm{plenum}/p_{t\delta}$. The total pressure and total temperature at the edge of the boundary layer above the bleed region were used for the above equations.
+The bleed boundary condition requires $Q_{\trm{sonic}}$ to be evaluated. The values of $Q_{\trm{sonic}}$ varied for various Mach numbers with respect to the ration between the plenum static pressure and the total pressure of the inlet flow at the edge of the approaching boundary layer, $p_{\trm{plenum}}/p_{t\delta}$. The total pressure and total temperature at the edge of the boundary layer above the bleed region were used for the above equations.
 
+Data sets existed
 
 The sonic flow coefficient is presented as a function of the ratio of bleed plenum pressure to freestream (boundary-layer edge) total pressure (Pplen/Pt,e). For the present study, the total temperature at the boundary-layer edge (Tt,e) is assumed to be the same as the total temperature in the wind tunnel plenum chamber (Tt,0).
 
@@ -44,11 +47,11 @@ The sonic flow coefficient is presented as a function of the ratio of bleed plen
  %\vspace{-0.2 in}
 \end{figure}
 
-For each Mach number, the $Q_\trm{sonic}$, and so, the bleed flow $\mdot_\trm{bleed}$, increases as the plenum total pressure ratio is reduced. At some ratio, the bleed holes choke, and a maximum bleed rate is achieved. \cref{fig:MyFirstLaTeX} illustrates the decrease in $Q_\trm{sonic}$ as the Mach number increases. This reflects the increased losses and increased difficulty in bleeding the flow as the Mach number increases.
+For each Mach number, the $Q_{\trm{sonic}}$, and so, the bleed flow $\mdot_{\trm{bleed}}$, increases as the plenum total pressure ratio is reduced. At some ratio, the bleed holes choke, and a maximum bleed rate is achieved. \cref{fig:MyFirstLaTeX} illustrates the decrease in $Q_{\trm{sonic}}$ as the Mach number increases. This reflects the increased losses and increased difficulty in bleeding the flow as the Mach number increases.
 
 The bleed hole sonic mass flow coefficient, Qsonic is determined as function of the bleed hole angle, the bleed plenum pressure, and the local flow proprties. 
 
-$$ Q_{sonic} = \frac{\dot{m}_{actual}}{\dot{m}_{max}} = f\qty(\alpha_{bleed},M_{local},\dfrac{P_{plenum}}{P_{Tlocal}}) $$
+$$ Q_{\trm{sonic}} = \frac{\dot{m}_{actual}}{\dot{m}_{max}} = f\qty(\alpha_{bleed},M_{local},\dfrac{P_{plenum}}{P_{Tlocal}}) $$
 
 where $\dot{m}_{max}$ is the max theoretical flow at the local stagnation pressure and stagnation temperature. The local flow properties are taken at the wall for the inviscid flows or from the grid point that is just beyond the edge of the boundary layer for viscous flows. The q-sonic coefficient is a look-up table from the works of Syberg \cite{Syberg1973} and McLafferty \cite{McLafferty1958}.
 
@@ -63,6 +66,7 @@ Mayer and Paynter \cite{Mayer1994} created a model treats each bleed region like
 The surface porosity is calculated $\Phi$, the wall velocity is computed, and the bleed hole sonic mass flow coefficient $Q_{sonic}$ is determined as a function of the bleed hole angle, the bleed plenum pressure, and the local flow proprties. $Q_{sonic}$ is interpolated from Syberg \cite{Syberg1973} and McLaugherty \cite{McLafferty1958}. pulled from a lookup table and bilinear interpolation is used to calculate the appropriate values of Qsonic.
 
 The bleed model of Mayer and Paynter17 stands out as representing the current state of porous bleed modeling. This model was implemented within the Wind-US CFD code.23 The inlet analyses of Ref. 13 illustrated the use of this bleed model for a supersonic inlet analysis. The model allows the bleed rate to vary across the bleed region according to local conditions. This is important when shock waves are interacting with the bleed region. For example, behind the shock wave, the static pressures are greater, which should result in a greater amount of bleed flow than ahead of the shock. The local bleed rate is calculated by extracting flow properties from the flow field and using a table look-up of empirically-based sonic flow coefficients, Qsonic. The use of the Qsonic data for the bleed model requires the CFD code to compute the Mach number, total pressure, and total temperature at the edge of the boundary layer. However, it may be computationally complex and time-consuming to locate each grid point at the boundary layer edge. This has can be especially difficult for unstructured-grid CFD codes. Further, the edge of the boundary layer may not be well-defined, such as in the case of a shock / boundary layer interaction with extensive boundary layer separation. Thus, a different approach for using the Qsonic data is needed.
+
 
 
 %$$ u_{bleed} = \qty|u_{bleed}|n_{wall} $$
@@ -271,7 +275,6 @@ some issues that i faced was that the flow was very unsteady, probably due to a 
 \end{tabular} 
 \caption{Grid refinement in the plenum and patch sizing} 
 \label{tab:results} \end{table}
-
 
 %\figSmallPatch
 
