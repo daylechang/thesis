@@ -950,9 +950,9 @@
       <tspan
          id="tspan7993"
          sodipodi:role="line"
-         y="160.80786"
-         x="50.696011 52.107822 53.284691 53.746124 54.334564 55.03941 56.216274 57.393147"
-         style="stroke-width:0.35277778">Eq. (13)</tspan>
+         style="stroke-width:0.35277778"
+         x="50.696011"
+         y="160.80786">Slater Model</tspan>
     </text>
     <flowRoot
        xml:space="preserve"
