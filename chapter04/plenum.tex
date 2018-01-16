@@ -1,4 +1,4 @@
-\section{Plenum Effect Study}
+%\section{Plenum Effect Study}
 
 \section{Previous Work}
 
@@ -12,50 +12,47 @@ These experimental works paved the way for the normalization of bleed data by us
 % -----------------------------------------------------------
 \section{Sonic Flow Coefficient}
 
-Bleed configurations are often characterized by the sonic flow coefficient ($Q_{\trm{sonic}}$), which is defined as
+Bleed configurations are characterized by the sonic flow coefficient ($Q_{\trm{sonic}}$), which is defined as
 
 $$ Q_{\trm{sonic}} = \frac{\mdot_{\trm{bleed}}}{\mdot_{\trm{sonic}}} $$
 
 %$$ \Qs = \frac{\mdot_{\trm{bleed}}}{\mdot_{trm{sonic}} $$
 
-where $\mdot_{\trm{bleed}}$ is the mass flow rate through the bleed hole and $\mdot_{\trm{sonic}}$ is the 
+where $\mdot_{\trm{bleed}}$ is the mass flow rate through the bleed hole and $\mdot_{\trm{sonic}}$ is the ideal massflow rate under choked conditions assuming isentropic, sonic flow $(M=1)$ through the bleed hole. The $\mdot_{\trm{bleed}}$ is the flow rate given in the general form of
 
-a reference flow calculated by assuming isentropic conditions through the bleed holes with sonic flow $(M=1)$ or within the bleed hole. $Q_{\trm{sonic}}$ thus represents the ability of the bleed hole to extract bleed flow.
-and $w_i^*$ is the ideal mass-flow rate under chocked conditions:
+$$ \mdot_{\trm{bleed}} = \rho A v = p_t A M \cdot \qty(\frac{\gamma}{RT_t})^{\sfrac{1}{2}} \cdot \qty(1 + \frac{\gamma-1}{2}M^2)^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
 
-The $\mdot$ is the flow rate given in the general form of
+and $\mdot_{\trm{sonic}}$ is in the form
+
+%$$ \mdot_{\trm{sonic}} = p_t \Phi A_{\trm{region}} \qty(\frac{\gamma+1}{2}M^2)^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
+
+\begin{equation} \mdot_{\trm{sonic}} = p_t \Phi A_{\trm{region}} \qty(\frac{\gamma}{RT_t})^{\sfrac{1}{2}} \qty(\frac{\gamma+1}{2})^{\sfrac{\minus\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} 
+\label{eq:mdot_sonic}
+\end{equation}
+
+where $\Phi$ is the bleed hole porosity, $A_{\trm{bleed}}$ is the cross-sectional area of the bleed holes, $A_{\trm{region}}$ is the area of the total area of the region.
+
+$$ \Phi = \frac{A_{\trm{region}}}{A_{\trm{bleed}}} $$
 
 
-$$ \mdot = \rho A v = p_t A M \cdot \qty(\frac{\gamma}{RT_t})^{\sfrac{1}{2}} \cdot \qty(1 + \frac{\gamma-1}{2}M^2)^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
+%$$ w_i^* = \frac{P_{t,e}\cdot A_b }{\sqrt{T_{t,e}}} \cdot \sqrt{\frac{\gamma\cdot g_c}{R_{air}}} \cdot \qty(\frac{\gamma+1}{2})^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
 
-$$ \mdot_{\trm{sonic}} = p_t \Phi A_{\trm{region}} \qty(\frac{\gamma+1}{2}M^2)^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
+The ability of the bleed holes to extract bleed flow is represented by the sonic flow coefficient Qsonic. The bleed flow rate is calculated in the form of
 
-$$ w_i^* = \frac{P_{t,e}\cdot A_b }{\sqrt{T_{t,e}}} \cdot \sqrt{\frac{\gamma\cdot g_c}{R_{air}}} \cdot \qty(\frac{\gamma+1}{2})^{\sfrac{-\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}} $$
+$Q_{\trm{sonic}}$ thus represents the ability of the bleed hole to extract bleed flow. From experimental observation, %The bleed boundary condition requires $Q_{\trm{sonic}}$ to be evaluated. 
+the values of $Q_{\trm{sonic}}$ varied for various Mach numbers with respect to the ration between the plenum static pressure and the total pressure of the inlet flow at the edge of the approaching boundary layer, $p_{\trm{plenum}}/p_{t\delta}$. The total pressure and total temperature at the edge of the boundary layer above the bleed region were used for the above equations.
 
-The bleed boundary condition requires $Q_{\trm{sonic}}$ to be evaluated. The values of $Q_{\trm{sonic}}$ varied for various Mach numbers with respect to the ration between the plenum static pressure and the total pressure of the inlet flow at the edge of the approaching boundary layer, $p_{\trm{plenum}}/p_{t\delta}$. The total pressure and total temperature at the edge of the boundary layer above the bleed region were used for the above equations.
+At each Mach number, the $Q_{\trm{sonic}}$ varied with respect to the ratio between the plenum static pressure and the total pressure of the inlet flow at the edge of the approaching boundary layer, $p_{plenum}/p_{t\delta}$. The total pressure and total temperature at the edge of the boundary layer above the bleed region were used in \cref{eq:mdot_sonic}.
 
-Data sets existed
-
-The sonic flow coefficient is presented as a function of the ratio of bleed plenum pressure to freestream (boundary-layer edge) total pressure (Pplen/Pt,e). For the present study, the total temperature at the boundary-layer edge (Tt,e) is assumed to be the same as the total temperature in the wind tunnel plenum chamber (Tt,0).
+For each Mach number, the $Q_{\trm{sonic}}$, and so, the bleed flow $\mdot_{\trm{bleed}}$, increases as the plenum total pressure ratio is reduced. At some ratio, the bleed holes choke, and a maximum bleed rate is achieved. \cref{fig:willis_uncollapsed} illustrates the decrease in $Q_{\trm{sonic}}$ as the Mach number increases. This reflects the increased losses and increased difficulty in bleeding the flow as the Mach number increases.
 
 \begin{figure}[htbp]
  \begin{center}
     \includegraphics[width=3in]{willis_data_uncollapsed.eps}
      \caption{\LaTeX\ a very simple document from \cite{Slater2012}, who took it from \cite{Willis1995} Compile a very simple document.}
-     \label{fig:MyFirstLaTeX}
+     \label{fig:willis_uncollapsed}
  \end{center}
- %\vspace{-0.2 in}
 \end{figure}
-
-For each Mach number, the $Q_{\trm{sonic}}$, and so, the bleed flow $\mdot_{\trm{bleed}}$, increases as the plenum total pressure ratio is reduced. At some ratio, the bleed holes choke, and a maximum bleed rate is achieved. \cref{fig:MyFirstLaTeX} illustrates the decrease in $Q_{\trm{sonic}}$ as the Mach number increases. This reflects the increased losses and increased difficulty in bleeding the flow as the Mach number increases.
-
-The bleed hole sonic mass flow coefficient, Qsonic is determined as function of the bleed hole angle, the bleed plenum pressure, and the local flow proprties. 
-
-$$ Q_{\trm{sonic}} = \frac{\dot{m}_{actual}}{\dot{m}_{max}} = f\qty(\alpha_{bleed},M_{local},\dfrac{P_{plenum}}{P_{Tlocal}}) $$
-
-where $\dot{m}_{max}$ is the max theoretical flow at the local stagnation pressure and stagnation temperature. The local flow properties are taken at the wall for the inviscid flows or from the grid point that is just beyond the edge of the boundary layer for viscous flows. The q-sonic coefficient is a look-up table from the works of Syberg \cite{Syberg1973} and McLafferty \cite{McLafferty1958}.
-
-Based on the definition for Qsonic and accounting for the surface pororisity $\Phi$, the effective bleed velocity magntitude is computed. The bleed flow is assumed to be normal to the flow domain boundary
 
 
 % -----------------------------------------------------------
@@ -65,25 +62,27 @@ Mayer and Paynter \cite{Mayer1994} created a model treats each bleed region like
 
 The surface porosity is calculated $\Phi$, the wall velocity is computed, and the bleed hole sonic mass flow coefficient $Q_{sonic}$ is determined as a function of the bleed hole angle, the bleed plenum pressure, and the local flow proprties. $Q_{sonic}$ is interpolated from Syberg \cite{Syberg1973} and McLaugherty \cite{McLafferty1958}. pulled from a lookup table and bilinear interpolation is used to calculate the appropriate values of Qsonic.
 
+The sonic flow coefficient is presented as a function of the ratio of bleed plenum pressure to freestream (boundary-layer edge) total pressure (Pplen/Pt,e). For the present study, the total temperature at the boundary-layer edge (Tt,e) is assumed to be the same as the total temperature in the wind tunnel plenum chamber (Tt,0).
+
+The bleed hole sonic mass flow coefficient, Qsonic is determined as function of the bleed hole angle, the bleed plenum pressure, and the local flow proprties. 
+
+$$ Q_{\trm{sonic}} = \frac{\dot{m}_{actual}}{\dot{m}_{max}} = f\qty(\alpha_{bleed},M_{local},\dfrac{P_{plenum}}{P_{Tlocal}}) $$
+
+where $\dot{m}_{max}$ is the max theoretical flow at the local stagnation pressure and stagnation temperature. The local flow properties are taken at the wall for the inviscid flows or from the grid point that is just beyond the edge of the boundary layer for viscous flows. The q-sonic coefficient is a look-up table from the works of Syberg \cite{Syberg1973} and McLafferty \cite{McLafferty1958}.
+
+Based on the definition for Qsonic and accounting for the surface pororisity $\Phi$, the effective bleed velocity magntitude is computed. The bleed flow is assumed to be normal to the flow domain boundary
+
 The bleed model of Mayer and Paynter17 stands out as representing the current state of porous bleed modeling. This model was implemented within the Wind-US CFD code.23 The inlet analyses of Ref. 13 illustrated the use of this bleed model for a supersonic inlet analysis. The model allows the bleed rate to vary across the bleed region according to local conditions. This is important when shock waves are interacting with the bleed region. For example, behind the shock wave, the static pressures are greater, which should result in a greater amount of bleed flow than ahead of the shock. The local bleed rate is calculated by extracting flow properties from the flow field and using a table look-up of empirically-based sonic flow coefficients, Qsonic. The use of the Qsonic data for the bleed model requires the CFD code to compute the Mach number, total pressure, and total temperature at the edge of the boundary layer. However, it may be computationally complex and time-consuming to locate each grid point at the boundary layer edge. This has can be especially difficult for unstructured-grid CFD codes. Further, the edge of the boundary layer may not be well-defined, such as in the case of a shock / boundary layer interaction with extensive boundary layer separation. Thus, a different approach for using the Qsonic data is needed.
 
+The bleed model as described has some drawbacks for CFD simulations. First, locating the edge of the boundary layer above a surface solution point in the bleed region may be a complex task for the CFD code. One approach is to estimate the boundary-layer thickness and determine the grid point at that distance from the surface. For structured grids one can indicate the number of grid points from the wall and follow a grid line from the boundary point out into the flowfield. For unstructured grids, a search algorithm would be needed because grid points may not follow a structured order away from the wall. A second concern is that the edge of the boundary layer may not be well-defined. Bleed is often desirable in regions of shock wave/boundary-layer interactions, but these flowfields may contain separated and distorted flows with a range of Mach numbers. Defining a boundary-layer edge may not be possible for such flowfields.
 
+The porous bleed boundary condition is imposed for surface grid points located within the bleed region. The model assumes the region is continuously porous, and so, the flow through individual holes is not resolved nor are individual holes recognized.
 
-%$$ u_{bleed} = \qty|u_{bleed}|n_{wall} $$
+This raised the question as to whether conditions at the surface near the bleed holes could be used to characterize the bleed data rather than referencing the data  to the conditions of the approaching boundary layer. Hence, a new scaling of the bleed data was developed that characterized the bleed data with respect to the surface conditions. The new scaling is presented here and is similar to that proposed by Davis \cite{Davis2012}; 
 
-%Now the velocity on the boundary is set to the vector sum of the wall velocity and the bleed velocity
-
-%$$ u = u_{wall} + u_{bleed} $$
-
-%completing the application of the bleed boundary condition.
+Slater and Davis proposed similar new scalings:
 
 % -----------------------------------------------------------
-Slater \cite{Slater2009} developed a model for 90 degree bleed holes based on the Willis data for single-hole data where there is interaction between adjacent holes.
-
-
-% -----------------------------------------------------------
-%\section{Slater Model}
-% note
 \section{FIBE Effort}
 
 A renewed effort at NASA Glenn led to some experimental work. 
@@ -91,66 +90,6 @@ A renewed effort at NASA Glenn led to some experimental work.
 from eichorn paper
 
 The similarity of the normalization curves for the different Mach numbers has led the authors to seek a scaling that would collapses the curves to a single distribution. Initial efforts by Davis4 and Slater1 focused on the $90^\circ$ data of Willis et al. Both investigators took the approach of normalizing the bleed plenum pressure by the local surface static pressure, but Davis also included a coefficient to account for the slight overpressure of the bleed plenum at zero flow rates. For scaling the flow coefficient, the investigators took different approaches. Whereas Slater assumed for the $90^\circ$ hole case that the total pressure in the hole was approximately equal to the local surface static pressure, Davis established a purely empirical scaling based on the extrapolated choked value of the bleed plate. Slater’s correlation takes the form of:
-
-% -----------------------------------------------------------
-\subsection{Slater Model}
-
-
-$$ Q_{scaled} = \minus c \cdot \qty(P_{plen, scaled})^2 + b\cdot \qty(P_{plen, scaled}) + a$$
-
-
-\begin{table}[!htbp] \centering 
-\begin{tabular}[c]{*{2}{c}} \hline
-\textbf{Coefficient} & \textbf{Value}   \\ \hline
-a   & 0.59799735  \\ 
-b   & 0.03069346  \\ 
-c   & 0.59361420  \\ \hline
-\end{tabular} 
-\caption{Grid refinement in the plenum and patch sizing} 
-\label{tab:slater} \end{table}
-
-$$ P_{plen,scaled} = \dfrac{\qty(\dfrac{P_{plen}}{P_{t,e}})}{\qty(\dfrac{P_w}{P_{t,e}})} = \dfrac{\qty(\dfrac{P_{plen}}{P_{t,e}})}{\qty(1+\dfrac{\gamma-1}{2}\cdot M^2_e)^{\frac{\minus\gamma}{\gamma-1}}} $$
-
-%$$ \dfrac{\qty(\dfrac{P_{plen}}{P_{t,e}})}{\qty(1+\dfrac{\gamma-1}{2}\cdot M^2_e)^{\dfrac{-\gamma}{\gamma-1}}} $$
-
-$$ Q_{scaled} = \dfrac{Q}{\qty(\dfrac{P_w}{P_{t,e}})} = \dfrac{Q}{\qty(1+\dfrac{\gamma-1}{2}\cdot M^2_e)^{\frac{\minus\gamma}{\gamma-1}}} $$
-
-
-
-The current work improves on the Mayer-Paynter bleed model by introducing a scaling of the Qsonic data for 90-degree bleed holes. The scaling is able to collapse the Qsonic data for various Mach numbers to a trend that can then be fitted with a quadratic polynomial which is only a function of the ratio of plenum static pressure to the surface static pressure. The scaling eliminates the requirement to compute the flow properties at the edge of the boundary layer. The curve fit also provides a rudimentary model for blowing within a bleed region, which can occur if there is recirculation within the bleed region in the presence of a shock. The next section discusses the bleed modeling and the scaling of the Qsonic data. The improved bleed model was implemented into the Wind-US CFD code
-
-The porous bleed boundary condition is imposed for surface grid points located within the bleed region. The model assumes the region is continuously porous, and so, the flow through individual holes is not resolved nor are individual holes recognized.
-
-The ability of the bleed holes to extract bleed flow is represented by the sonic flow coefficient Qsonic. The bleed flow rate is calculated in the form of
-
-The W is the flow rate given in the general form of $ W = \rho A v $
-
-The Wsonic is calculated by assuming isentropic conditions through the bleed holes with sonic flow (M = 1) within the bleed holes.
-
-in summary, 
-
-
-A quadratic curve was fitted to the scaled data of Fig. 2. The quadratic equation is
-
-Figure 2 indicates that at a static pressure ratio of approximately 1.03, the bleed flow is zero. The plenum pressure is slightly higher than the surface static pressure. The fact may indicate a dynamic or ram effect of the flow into the bleed holes, even at 90 degrees. As the static pressure ratio approaches zero, the surface sonic flow coefficient approaches 0.6. This reflects the loss incurred in turning the flow into the bleed hole. Figure 3 shows the application of the scaling to sonic flow coefficient data sets used in references 2 and 17. There is greater variation in the scaled values than shown in Fig. 2, but the curve fit of Eq. 13 does well in characterizing the data. The exception is the data for Mach 1.0 where the curve fit indicates lower values for the surface sonic flow coefficient. Note that the minimum Mach number of Fig. 1 upon which the curve fit was generated was Mach 1.27. The comparisons of Fig. 3 suggest that the curve fit may not work well for characterizing bleed rates below Mach 1.27. This is under continued study; however, given that most of the flow in supersonic inlets is above Mach 1.27, the curve fit should provide a good characterization of the bleed flow in supersonic inlets.
-
-An additional benefit of the scaling of the sonic flow coefficient as expressed in Eq. 13 is that it provides a rudimentary model for blowing in a bleed hole. When the static pressure ratio is greater than 1.03, the value of the surface sonic flow coefficient is negative, which by Eq. 2 will result in a negative bleed flow or blowing. While large amounts of blowing are not intended in the design of a supersonic inlet, it is possible to experience recirculation within a bleed region. This can occur when a shock wave is interacting with the bleed region and the total bleed flow for the bleed region is small. The high pressures downstream of the shock cause pressurization of the bleed plenum, which forces the bleed plenum to blow flow out the bleed holes upstream of the shock where the local pressures are lower.
-
-
-
-% -----------------------------------------------------------
-\subsection{Slater Model Modified}
-% from slater journal paper
-
-The original slater model yields a positive slope as $p_{plenum}/p_B < 0.02585 $, contradicting the expectation that the sonic flow coefficient continually increases as the static plenum pressure approaches zero.
-
-by Andrew Dorgan of the Boeing Company, private communications, Apr. 2011
-
-$$ Q_{sonic-B} = -0.57 \cdot \qty(\frac{p_{plenum}}{p_B})^2 $$
-
-This alternative curve-fit differs in shape only slightly and not distinguishable if plotted.
-
-%These models provide a rudimentary model for blowing in a bleed hole.
 
 % -----------------------------------------------------------
 \subsection{Davis Model}
@@ -189,6 +128,144 @@ g   &  5.9532869 \\ \hline
 \label{tab:davis2} \end{table}
 
 Davis \cite{Davis2012} concluded that the scaling method presented by Slater (Ref. 4) was a better, but imperfect, fit for single-hole data than the scaling method Davis has previously proposed based upon a semi-empirical correlation of the data collected by Willis.
+
+
+Slater \cite{Slater2009} developed a model for 90 degree bleed holes based on the Willis data for single-hole data where there is interaction between adjacent holes.
+
+
+% -----------------------------------------------------------
+\subsection{Slater Model}
+
+The current work improves on the Mayer-Paynter bleed model by introducing a scaling of the Qsonic data for 90-degree bleed holes. The scaling is able to collapse the Qsonic data for various Mach numbers to a trend that can then be fitted with a quadratic polynomial which is only a function of the ratio of plenum static pressure to the surface static pressure. The scaling eliminates the requirement to compute the flow properties at the edge of the boundary layer. The curve fit also provides a rudimentary model for blowing within a bleed region, which can occur if there is recirculation within the bleed region in the presence of a shock. The next section discusses the bleed modeling and the scaling of the Qsonic data. The improved bleed model was implemented into the Wind-US CFD code
+
+
+
+%The W is the flow rate given in the general form of $ W = \rho A v $
+
+%The Wsonic is calculated by assuming isentropic conditions through the bleed holes with sonic flow (M = 1) within the bleed holes.
+
+%in summary, 
+
+%A quadratic curve was fitted to the scaled data of Fig. 2. The quadratic equation is
+
+
+The new scaling is not based on a direct curve fit of the data and removes the Mach number at the edge of the boundary layer as a factor. The new scaling defined an alternative reference flow for the sonic flow coefficient of the form
+
+$$ \mdot_{\trm{sonic}} = \Phi A_{\trm{region}} p_B \qty(\frac{\gamma}{RT_B})^{\sfrac{1}{2}} \qty(\frac{\gamma+1}{2})^{\sfrac{\minus\qty(\gamma+1)}{2\cdot\qty(\gamma-1)}}  $$
+
+The total conditions were replaced with the static pressure and temperature at the boundary surface local to the bleed hole. The subscript $B$ denotes the surface or boundary value. The surface static pressure and temperature are both easily obtained in a CFD flowfield. 
+
+The surface sonic flow coefficient was modified as
+
+$$ Q_{\trm{sonic-B}} = \frac{\mdot_{\trm{bleed}}}{\mdot_{\trm{sonic-B}}} = \frac{\mdot_{\trm{bleed}}}{\mdot_{\trm{sonic}}} \qty(\frac{\mdot_{\trm{sonic}}}{\mdot_{\trm{sonic-B}}}) $$
+
+The assumptions were made that the 
+
+$$ \frac{p_{t\delta}}{p_B} = \qty(1+\frac{\gamma-1}{2}M_\delta^2)^{\sfrac{\gamma}{\qty(\gamma-1)}} $$
+
+and 
+
+$$ \qty(\frac{T_B}{T_{t\delta}})^{\sfrac{1}{2}} \approx 1 $$
+
+The scaling was performed through the operations
+
+$$ Q_{\trm{sonic-B}} = Q_{\trm{sonic}}\qty(\frac{p_{t\delta}}{p_B}) $$
+
+and
+
+$$ \frac{p_{\trm{plenum}}}{p_B} = \frac{p_{\trm{plenum}}}{p_{t\delta}}\qty(\frac{p_{t\delta}}{p_B}) $$
+
+The effect of scaling the sonic flow coefficient data presented in \cref{fig:willis_uncollapsed} is shown in \cref{fig:willis_collapsed}. The scaled data collapsed along a trend such that the surface sonic flow coefficient only varied with respect to the static plenum pressure ratio $(p_{plenum}/p_B)$. The Mach number at the boundary-layer edge was removed as a factor.
+
+\begin{figure}[htbp]
+ \begin{center}
+    \includegraphics[width=3in]{willis_data_collapsed.eps}
+     \caption{\LaTeX\ a very simple document from \cite{Slater2012}, who took it from \cite{Willis1995} Compile a very simple document.}
+     \label{fig:willis_collapsed}
+ \end{center}
+ %\vspace{-0.2 in}
+\end{figure}
+
+The bleed flow for the improved bleed model is calculated as 
+
+$$ \mdot_{\trm{bleed}} = Q_{\trm{sonic-B}} \cdot \mdot_{\trm{sonic-B}} $$
+
+Both terms of the right-hand side of the above equation! are evaluated with respect to the plenum static pressure ratio. The plenum static pressure is either specified or computed based on other conditions such as those discussed in \cite{Slater2010} for a bleed plenum with a plenum exit with a fixed exit area.
+
+A quadratic curve was fitted to the scaled data of \cref{fig:willis_collapsed}. The resulting quadratic equation was
+
+
+$$ Q_{scaled} = \minus c \cdot \qty(P_{plen, scaled})^2 + b\cdot \qty(P_{plen, scaled}) + a$$
+
+$$ Q_{\trm{scaled}} = \minus0.59799735P_{\trm{plen,scaled}}^2 + 0.03069346P_{\trm{plen,scaled}} + 0.59799735 $$
+
+\begin{table}[!htbp] \centering 
+\begin{tabular}[c]{*{2}{c}} \hline
+\textbf{Coefficient} & \textbf{Value}   \\ \hline
+a   & 0.59799735  \\ 
+b   & 0.03069346  \\ 
+c   & 0.59361420  \\ \hline
+\end{tabular} 
+\caption{Grid refinement in the plenum and patch sizing} 
+\label{tab:slater} \end{table}
+
+$$ P_{plen,scaled} = \dfrac{\qty(\dfrac{P_{plen}}{P_{t,e}})}{\qty(\dfrac{P_w}{P_{t,e}})} = \dfrac{\qty(\dfrac{P_{plen}}{P_{t,e}})}{\qty(1+\dfrac{\gamma-1}{2}\cdot M^2_e)^{\frac{\minus\gamma}{\gamma-1}}} $$
+
+%$$ \dfrac{\qty(\dfrac{P_{plen}}{P_{t,e}})}{\qty(1+\dfrac{\gamma-1}{2}\cdot M^2_e)^{\dfrac{-\gamma}{\gamma-1}}} $$
+
+$$ Q_{scaled} = \dfrac{Q}{\qty(\dfrac{P_w}{P_{t,e}})} = \dfrac{Q}{\qty(1+\dfrac{\gamma-1}{2}\cdot M^2_e)^{\frac{\minus\gamma}{\gamma-1}}} $$
+
+The above equation is plotted along with the collapsed data in \cref{fig:willis_collapsed} and provides a good fit of the collapsed data. \cref{fig:willis_collapsed} indicates that at a static pressure ratio of approximately 1.03, the bleed flow is zero. The plenum pressure is slightly higher than the surface static pressure. This fact may indicate a dynamic or ram effect of the flow into the bleed holes, even at 90 deg. As the static pressure ratio approaches zero, the surface sonic flow coefficients approaches 0.6. This reflects the loss incurred in turning the flow into the bleed hole.
+
+\cref{fig:syberg_data_collapsed,fig:mayer_data_collapsed} shows the application of the scaling to sonic flow coefficient data sets used in references 2 and 17. There is greater variation in the scaled values than shown in Fig. 2, but the curve fit of Eq. 13 does well in characterizing the data. The exception is the data for Mach 1.0 where the curve fit indicates lower values for the surface sonic flow coefficient. Note that the minimum Mach number of Fig. 1 upon which the curve fit was generated was Mach 1.27. The comparisons of Fig. 3 suggest that the curve fit may not work well for characterizing bleed rates below Mach 1.27. This is under continued study; however, given that most of the flow in supersonic inlets is above Mach 1.27, the curve fit should provide a good characterization of the bleed flow in supersonic inlets.
+
+The scaling was applied to the sonic flow coefficients data sets used in \cite{Syberg1973,Mayer1994} to examine whether the scaling worked for other data sets. \cref{fig:syberg_data_collapsed} shows the results of that scaling along with the plot of Eq. (13). The data for Mach numbers of 1.3 and above seem to collapse together well; however, the variation is greated than observed for the data set of Willis et al. as shown in \cref{fig:willis_collapsed}. The curve fit of EQ. 13 represents both data sets for Mach numbers of 1.3 and above. However, the data for Mach 1.0 indicates higher values than indicated by the rest of the data and Eq. (13). This suggests that the scaling and Eq. (13) may have greater error in evaluating sonic flow coefficients at sonic and subsonic Mach numbers. However, the curve fit of Eq. (13) is accepted as a reasonable representation of the surface sonic flow coefficients for the time being, even at subsonic and sonic Mach numbers. Further modeling efforts should examine improving the curve fit for subsonic and sonic Mach numbers.
+
+An additional benefit of the scaling of the sonic flow coefficient as expressed in Eq. 13 is that it provides a rudimentary model for blowing in a bleed hole. When the static pressure ratio is greater than 1.03, the value of the surface sonic flow coefficient is negative, which by Eq. 2 will result in a negative bleed flow or blowing. While large amounts of blowing are not intended in the design of a supersonic inlet, it is possible to experience recirculation within a bleed region. This can occur when a shock wave is interacting with the bleed region and the total bleed flow for the bleed region is small. The high pressures downstream of the shock cause pressurization of the bleed plenum, which forces the bleed plenum to blow flow out the bleed holes upstream of the shock where the local pressures are lower.
+
+
+
+\begin{figure}[htbp] \begin{center}
+    \includegraphics[width=3in]{syberg_hickcox_data_collapsed.eps}
+    \caption{Syberg: \cite{Slater2012}, who took it from \cite{Willis1995} Compile a very simple document.}
+     \label{fig:syberg_data_collapsed} \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+ \begin{center}
+    \includegraphics[width=3in]{mayer_paynter_data_collapsed.eps}
+     \caption{\LaTeX\ a very simple document from \cite{Slater2012}, who took it from \cite{Willis1995} Compile a very simple document.}
+     \label{fig:mayer_data_collapsed}
+ \end{center}
+\end{figure}
+
+Data sets existed
+
+
+
+
+% -----------------------------------------------------------
+\subsection{Slater Model Modified}
+% from slater journal paper
+
+The original slater model yields a positive slope as $p_{plenum}/p_B < 0.02585 $, contradicting the expectation that the sonic flow coefficient continually increases as the static plenum pressure approaches zero.
+
+by Andrew Dorgan of the Boeing Company, private communications, Apr. 2011
+
+$$ Q_{sonic-B} = -0.57 \cdot \qty(\frac{p_{plenum}}{p_B})^2 $$
+
+This alternative curve-fit differs in shape only slightly and not distinguishable if plotted.
+
+%These models provide a rudimentary model for blowing in a bleed hole.
+
+
+
+
+
+% -----------------------------------------------------------
+%\section{Slater Model}
+% note
+
 
 % -----------------------------------------------------------
 \subsection{Results from Phase I}
