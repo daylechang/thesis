@@ -61,7 +61,7 @@ xlabel('Plenum Static Pressure Ratio')
 x0=10;
 y0=10;
 width=300;
-height=250*3/4;
+height=200;
 set(gcf,'units','points','position',[x0,y0,width,height])
 
 % expand axis to fill figure
