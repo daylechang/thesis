@@ -296,7 +296,6 @@ The methods of computational fluid dynamics (CFD) have been applied to the aerod
 \section{Experiment}
 % from Slater conf paper
 
-
 The experiment \verb|cite willis davis hingst| that was used for validation was performed in the NASA Glenn Research Center 1 ft by 1 ft Supersonic Wind Tunnel (SWT) measuring mass flow rate through bleed holes at various Mach numbers. The quantities that were used in the validation were the boundary layer thickness and momentum thickness of the naturally boundary layer along the wind tunnel wall, the bleed hole diameter, the bleed hole depth, and the pressure ratios used in the experiment to draw air through the bleed hole. A plenum sat below the hole where the plenum pressure could be varied (which controlled the pressure ratio through the hole), varying the massflow rate through the hole.
 
 D = 0.236 in.
@@ -321,11 +320,29 @@ SA & 0.08 & Small & 0.0273 & 5.52\% \\ \hline
 \caption{Grid refinement in the plenum and patch sizing} 
 \label{tab:grid_convergence} \end{table}
 
-the hole was located in a disc mounted flush with the bottom of the test section of the 15- by 15-cm wind tunnel at the NASA Glenn Research Center. The boundary layer over the plate was the naturally occuring Boundary layer on the bottom surface of the tunnel.
+\begin{table}[!htbp] \centering 
+\begin{tabular}[c]{*{2}{c}} \hline
+\textbf{Parameter} & \textbf{Value}  \\ \hline
+D & 0.236 \\
+L & 2D \\
+Ref & 2.46 \\
+Mach & 2.46 \\
+Re & 5.15E+06 / ft \\
+$P_t$ & 25.0 psia \\ 
+$\delta$ & 0.5079 in. \\ \hline
+\end{tabular} 
+\caption{Grid refinement in the plenum and patch sizing} 
+\label{tab:stats} \end{table}
 
 The CFD simulations involved a single 90-degree bleed hole with a diameter D = 0.236 inches and length of L = 2 D. The hole was located in a disk mounted flush with the bottom of the test section of the 15cm x 15cm wind tunnel at the NASA Glenn Research Center. The boundary layer over the plate was the naturally-occurring boundary layer on the bottom surface of the wind tunnel. The flow conditions and boundary layer profile approaching the bleed region were measured with a translating pitot probe and wall static pressure ports. The reference station for the approach flow was located 2.46 inches ahead of the center of the bleed hole. The bleed plenum was attached to the outside of the wind tunnel with ducting to a vacuum exhaust. The plenum was cylindrical with an inside diameter of 2.874 inches and an axial length of 3.50 inches. The axis of the plenum was parallel to the axis of the bleed hole. A vacuum chamber was used to establish the bleed flow rate, which was measured using a calibrated nozzle. The uncertainty of the experimental data was reported as $\pm1.5 \%$ for total pressures, and $\pm 1 \%$ percent for values of Qsonic. 
 
-The CFD simulations were performed at a Mach number of 2.46. The side-view and front-view of the computational flow domain are shown in Fig. 6. The bleed hole and plenum are located below the tunnel and shown at the bottom of Fig. 6. Geometric and flow symmetry was assumed and allowed only half of the tunnel, bleed hole, and plenum to be simulated. A reflection boundary condition was used on the symmetry plane. The bottom and side of the tunnel were specified with adiabatic, no-slip boundary conditions. The top of the tunnel was specified as an inviscid wall so as to require less grid points to resolve the boundary layer, which was assumed not to influence the flow through the bleed hole. The inflow boundary was positioned an axial distance of 38.46 inches ahead of the center axis of the hole. This position was determined to provide a turbulent boundary layer at the reference location that matched the reference boundary layer profile and edge conditions of the experiment. The  conditions at the edge of the boundary layer were a Mach number of 2.46, total pressure of 25.0 psia, and a Reynolds number of 5.15E+06 / ft. The boundary layer thickness was 0.5079 inches. The outflow boundary was positioned 5.0 inches downstream of the center axis of the bleed hole and a first-order extrapolation boundary condition was used for the supersonic outflow. The plenum was modeled as a cylinder with a converging-diverging nozzle directed downward for the outflow for the plenum. The exit for the plenum nozzle was located 6.472 inches below the bottom wall of the tunnel and a subsonic outflow boundary condition was imposed in which the static pressure was specified. The bleed flow reached very low speeds within the plenum and the intent of the nozzle was to create a smooth exit for the bleed flow from the plenum. The walls of the plenum and bleed hole were specified as adiabatic, no-slip boundary conditions.
+%The CFD simulations were performed at a Mach number of 2.46. Geometric and flow symmetry was assumed and allowed only half of the tunnel, bleed hole, and plenum to be simulated. A reflection boundary condition was used on the symmetry plane. The bottom and side of the tunnel were specified with adiabatic, no-slip boundary conditions. The top of the tunnel was specified as an inviscid wall so as to require less grid points to resolve the boundary layer, which was assumed not to influence the flow through the bleed hole. 
+
+The inflow boundary was positioned an axial distance of 38.46 inches ahead of the center axis of the hole. This position was determined to provide a turbulent boundary layer at the reference location that matched the reference boundary layer profile and edge conditions of the experiment. 
+
+The  conditions at the edge of the boundary layer were a Mach number of 2.46, total pressure of 25.0 psia, and a Reynolds number of 5.15E+06 / ft. The boundary layer thickness was 0.5079 inches. 
+
+The outflow boundary was positioned 5.0 inches downstream of the center axis of the bleed hole and a first-order extrapolation boundary condition was used for the supersonic outflow. The plenum was modeled as a cylinder with a converging-diverging nozzle directed downward for the outflow for the plenum. The exit for the plenum nozzle was located 6.472 inches below the bottom wall of the tunnel and a subsonic outflow boundary condition was imposed in which the static pressure was specified. The bleed flow reached very low speeds within the plenum and the intent of the nozzle was to create a smooth exit for the bleed flow from the plenum. The walls of the plenum and bleed hole were specified as adiabatic, no-slip boundary conditions.
 
 Initial solutions for the tunnel boundary layer indicated that a wall spacing of 2.4E-04 inches provided a non-dimensional wall spacing of y+  1.0. The grid distribution was determined using a hyperbolic-tangent method with end-spacings specified. The number of grid points along an edge was selected such that the maximum grid stretching was less than $15\%$. Within the bleed hole, the maximum spacing was limited to 0.005 inches (0.02 D), which set the level of maximum resolution of the flow within the bleed hole. This grid established the highest resolution of the flow field for the grid convergence study (fine grid). The resulting grid contained 678375 grid points within the bleed hole. The entire grid contained over 6.66 million grid points with over half of the grid points located within 3 diameters of the bleed hole and within the plenum. 
 
