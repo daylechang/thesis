@@ -35,6 +35,8 @@ plen_ratio_scaled = plen_ratio_unscaled*factor;
 slater_model_scaled = -0.59361420*plen_ratio_scaled.^2 + 0.03069346*plen_ratio_scaled + 0.59799735;
 slater_model_unscaled = slater_model_scaled/factor;
 
+slater_model_mod = -0.57*plen_ratio_scaled.^2 + 0.59799735;
+
 % unscaled -> Q_sonic
 % figure(1); clf; hold on
 % plot(plen_ratio_unscaled,slater_model_unscaled,'k')
@@ -44,6 +46,7 @@ slater_model_unscaled = slater_model_scaled/factor;
 % scaled -> Q_sonic-B
 figure(1); clf; hold on
 plot(plen_ratio_scaled,slater_model_scaled,'k')
+%plot(plen_ratio_scaled,slater_model_mod)
 scatter(efd_data(:,1)*factor,efd_data(:,2)*factor,'square','filled')
 scatter(cfd_data(:,1)*factor,cfd_data(:,2)*factor,'^','filled')
 
@@ -54,6 +57,12 @@ xlim([0,1.2])
 ylim([0,0.6])
 ylabel('Surface Sonic Flow Coefficient')
 xlabel('Plenum Static Pressure Ratio')
+
+x0=10;
+y0=10;
+width=400;
+height=250;
+set(gcf,'units','points','position',[x0,y0,width,height])
 
 % expand axis to fill figure
 fig = gcf;
