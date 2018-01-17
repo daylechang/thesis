@@ -69,7 +69,7 @@ for axn = 1:length(ax)
 end
 
 % save as
-raw_name = 'slater_cfd_plot';
+raw_name = fullfile('..','figures','slater_cfd_plot');
 format = 'both';
 
 set(gcf,'color','w');
