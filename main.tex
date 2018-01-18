@@ -1,15 +1,16 @@
 \newif\ifdraft
-\drafttrue
-% draft mode is true: \isdrafttrue
+\draftfalse
+
+% draft mode is true: \drafttrue
 %   - uses \documentclass{article} instead of afitThesis.sty
-% draft mode is false: \isdraftfalse
+% draft mode is false: \draftfalse
 %   - uses afitThesis.sty
 
 \ifdraft
   \documentclass{article}
   \usepackage[letterpaper, margin=.8in]{geometry}
   \usepackage[doi=false,isbn=false,url=false]{biblatex}
-  \addbibresource{references.bib}
+  \addbibresource{back/references.bib}
 \else
   \documentclass[12pt,letterpaper,oneside]{book}
 \fi
@@ -23,20 +24,46 @@
 	\author{Dayle}
 	\title{DRAFT}
 	\maketitle
+    \tableofcontents
 \else
-\frontmatter
-\fi
-
-	\tableofcontents
-
-\ifdraft
-\else
-\mainmatter
+	\frontmatter
+    \title{DRAFT}
+    \tableofcontents
+    \listoffigures
+    \mainmatter
 \fi
 
 \pagebreak
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\input{chapter04/plenum}
+
+% ====================================================== Introduction
+	\input{chapter01/introduction}
+
+% ====================================================== Background and Theory
+	\chapter{Background and Theory} \label{background}
+	\input{chapter02/navier_stokes}
+	\input{chapter02/boundary_conditions}
+	\input{chapter02/rans}
+	\input{chapter02/des}
+	\input{chapter02/grid_generation}
+	\input{chapter02/swbli}
+	\input{chapter02/lit_review}
+	
+% ====================================================== Methodology
+	\chapter{Methodology} \label{methodology}
+	\input{chapter03/grid_generation}
+	\input{chapter03/solver}
+	\input{chapter03/independence_studies}
+
+% ====================================================== Results
+	\chapter{Results and Analysis} \label{results}
+	\input{chapter04/plenum}
+	%\input{chapter04/shock_characterization}
+	%\input{chapter04/mitigation}
+
+% ====================================================== Conclusion
+	%\chapter{Conclusion} \label{conclusion}
+	%\input{chapter05/contents}
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \pagebreak
