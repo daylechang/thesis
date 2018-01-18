@@ -17,7 +17,7 @@ where $d_{\text{DES}}$ is the distance to the wall, $C_{\text{DES}}$ is a consta
 % ======================================================= DDES
 \subsection{Delayed Detached Eddy Simulation} 
 
-\abbreviationFull[Delayed Detached Eddy Simulation]{DDES} was introduced by Spalart et al. to avoid an undesired switch to LES mode within the boundary layer where there is inadequate refinement \cite{Spalart2006}. The following modifications were proposed to \say{delay LES function.} First, the parameter, $r$, was redefined from \cref{eq:SA_fwterms} to improve robustness in irrotational regions:
+\abbreviationFull[Delayed Detached Eddy Simulation]{DDES} was introduced by Spalart et al. to avoid an undesired switch to LES mode within the boundary layer where there is inadequate refinement \cite{Spalart2006}. The following modifications were proposed to \enquote{delay LES function.} First, the parameter, $r$, was redefined from \cref{eq:SA_fwterms} to improve robustness in irrotational regions:
 %
 \begin{equation}\label{eq:rd}
     r_d = \frac{\tilde{\nu}}{\sqrt{U_{i,j}U_{i,j}}\kappa^2d^2}
