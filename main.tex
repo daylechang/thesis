@@ -1,5 +1,6 @@
 \newif\ifdraft
-\draftfalse
+%\draftfalse
+\drafttrue
 
 % draft mode is true: \drafttrue
 %   - uses \documentclass{article} instead of afitThesis.sty
@@ -7,7 +8,7 @@
 %   - uses afitThesis.sty
 
 \ifdraft
-  \documentclass{article}
+  \documentclass{report}
   \usepackage[letterpaper, margin=.8in]{geometry}
   \usepackage[doi=false,isbn=false,url=false]{biblatex}
   \addbibresource{back/references.bib}
@@ -21,10 +22,12 @@
 \begin{document}
 
 \ifdraft
-	\author{Dayle}
-	\title{DRAFT}
+	\author{Dayle L. Chang}
+	\title{Thesis Draft}
 	\maketitle
     \tableofcontents
+    %\listoffigures
+    %\listoftables
 \else
 	\frontmatter
     \title{DRAFT}
@@ -37,23 +40,23 @@
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 % ====================================================== Introduction
-	\input{chapter01/introduction}
+	%\input{chapter01/introduction}
 
 % ====================================================== Background and Theory
-	\chapter{Background and Theory} \label{background}
-	\input{chapter02/navier_stokes}
-	\input{chapter02/boundary_conditions}
-	\input{chapter02/rans}
-	\input{chapter02/des}
-	\input{chapter02/grid_generation}
-	\input{chapter02/swbli}
-	\input{chapter02/lit_review}
+	%\chapter{Background and Theory} \label{background}
+	%\input{chapter02/navier_stokes}
+	%\input{chapter02/boundary_conditions}
+	%\input{chapter02/rans}
+	%\input{chapter02/des}
+	%\input{chapter02/grid_generation}
+	%\input{chapter02/swbli}
+	%\input{chapter02/lit_review}
 	
 % ====================================================== Methodology
-	\chapter{Methodology} \label{methodology}
-	\input{chapter03/grid_generation}
-	\input{chapter03/solver}
-	\input{chapter03/independence_studies}
+	%\chapter{Methodology} \label{methodology}
+	%\input{chapter03/grid_generation}
+	%\input{chapter03/solver}
+	%\input{chapter03/independence_studies}
 
 % ====================================================== Results
 	\chapter{Results and Analysis} \label{results}
@@ -71,6 +74,8 @@
  	\printbibliography
 \else
 	\backmatter
+    \bibliographystyle{afitStyleFiles/spiebib03}
+	\bibliography{back/references} 
 \fi
 
 \end{document}

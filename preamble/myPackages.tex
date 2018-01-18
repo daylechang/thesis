@@ -7,6 +7,11 @@
 
 \ifdraft
   \usepackage{graphicx}
+  \usepackage{float} 
+	% Places the figure float at precisely the location in the LaTeX code
+  \usepackage{amsmath} 
+	% \begin{multiline} \\ \end{multiline}
+	% \begin{cases}
 \else
   \usepackage{afitStyleFiles/afitThesis}
   \usepackage{afitStyleFiles/sf298}
@@ -17,9 +22,7 @@
 %\usepackage{dirtytalk} % quotations with \say{}
 \usepackage{csquotes} % quotations with \enquote{}
 %\usepackage{showkeys} % show labels and citations
-\usepackage{amsmath} 
-	% \begin{multiline} \\ \end{multiline}
-	% \begin{cases}
+
 
 \usepackage[hidelinks]{hyperref}
 %\usepackage [autostyle, english = american]{csquotes}
@@ -29,9 +32,6 @@
 %	- spell out equations, capitalize the first letter,
 % 		and make the numbers themselves hyperlinks
 
-\usepackage{float} 
-	% Places the figure float at precisely the location in the LaTeX code
-
 %\usepackage{subfigure}
 % for plots
 \usepackage{subcaption}
@@ -39,4 +39,8 @@
 
 \usepackage[justification=centering]{caption}
 
+% anchor footnotes to bottom of page
+\usepackage[bottom]{footmisc}
+
 \graphicspath{{figures/}}
+
